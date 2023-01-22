@@ -17,7 +17,8 @@ function Card(props) {
         <a href='/product' className='card__link'>
           <img src={props.picture} alt='Добавить в избранное' className='card__favorite-icon' />
           <div className='card__desc'>
-            <span className='card__price card__price_type_discount'>{discountPrice ?? 'No Price'}&nbsp;₽</span>
+            <span className={!!props.discount ? 'card__old-price' : 'card__price'}>{props.price}&nbsp;₽</span>
+            {!!props.discount && <span className='card__price card__price_type_discount'>{discountPrice ?? 'No Price'}&nbsp;₽</span>}
             <span className='card__wight'>{props.wight}</span>
             <p className='card__name'>{props.name}</p>
           </div>

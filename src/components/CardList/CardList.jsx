@@ -1,15 +1,12 @@
 import './CardList.css';
 import Card from '../Card/Card';
-import data from '../../assets/data.json'
-import { isContentEditable } from '@testing-library/user-event/dist/utils';
 
-export function CardList() {
-  console.log(data);
+export function CardList({data}) {
   return (
     <div className='cards'>
         {
-          data.map((item) => (
-            <Card {...item} />
+          data.map((item, index) => (
+            <Card {...item} key={`${index}-${item.name}`} />
           ))
         }
     </div>
