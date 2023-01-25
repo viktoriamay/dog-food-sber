@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import { CardList } from '../CardList/CardList';
-import data from '../../assets/data.json';
 import SearchInfo from '../SearchInfo/SearchInfo';
 import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
+import api from '../../utils/api';
 
 const useDebounce = (value, delay) => {
   const [debounceValue, setDebounceValue] = useState(value);
@@ -24,12 +24,16 @@ const useDebounce = (value, delay) => {
 };
 
 export function App() {
-  const [cards, setCards] = useState(data);
+  const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   const debounceSearchQuery = useDebounce(searchQuery, 2000);
 
   const handleRequest = () => {
+    const filterCards = [].filter((item) => 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setCards(filterCards);
     /* api
       .search(searchQuery)
       .then((res) => setCards(res))
@@ -50,10 +54,11 @@ export function App() {
   };
 
   useEffect(() => {
-    const filteredCards = data.filter((item) =>
+    /* const filteredCards = data.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setCards([...filteredCards])
+    setCards([...filteredCards]) */
+    api.getProductsList().then((data) => setCards(data.products));
   }, [searchQuery]);
 
   return (
