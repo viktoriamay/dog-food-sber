@@ -3,13 +3,12 @@ import './Header.css'
 import Logo from '../Logo/Logo'
 import Search from "../Search/Search";
 
-export function Header({changeInput}) {
+export function Header({children}) {
   return (
-    <header className="header">
+    <header className="header cover">
       <div className="container">
         <div className="header__wrapper">
-          <Logo />
-          <Search changeInput={changeInput} />
+          {children}
         </div>
       </div>
     </header>
