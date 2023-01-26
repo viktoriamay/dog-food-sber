@@ -18,7 +18,7 @@ export function App() {
   const debounceSearchQuery = useDebounce(searchQuery, 2000);
 
   const handleRequest = () => {
-    
+
     /* поиск по карточкам без запросов на сервер
 
     const filterCards = [].filter((item) => 
@@ -63,9 +63,13 @@ export function App() {
 
   }, [searchQuery]);
 
+  function handleUpdateUser() {
+    
+  }
+
   return (
     <div className="App">
-      <Header>
+      <Header user={currentUser} onUpdateUser={handleUpdateUser}>
         <>
           <Logo className='logo logo_place_header' href='/' />
           <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
