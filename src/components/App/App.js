@@ -18,6 +18,7 @@ export function App() {
   const debounceSearchQuery = useDebounce(searchQuery, 2000);
 
   const handleRequest = () => {
+    
     /* поиск по карточкам без запросов на сервер
 
     const filterCards = [].filter((item) => 
@@ -25,7 +26,7 @@ export function App() {
     ); 
     setCards(filterCards);*/
     
-    api.search(searchQuery).then((res) => setCards(res))
+    api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err))
   };
 
   useEffect(() => {
@@ -42,10 +43,14 @@ export function App() {
   };
 
   useEffect(() => {
-    /* const filteredCards = data.filter((item) =>
+
+    /* поиск по карточкам без запросов на сервер 
+
+    const filteredCards = data.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setCards([...filteredCards]) */
+
     Promise.all([api.getProductsList(), api.getUserInfo()]).then(([productsData, userData]) => {
       setCards(productsData.products);
       setCurrentUser(userData)
