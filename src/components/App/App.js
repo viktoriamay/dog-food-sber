@@ -8,36 +8,24 @@ import SearchInfo from '../SearchInfo/SearchInfo';
 import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
 import api from '../../utils/api';
-
-const useDebounce = (value, delay) => {
-  const [debounceValue, setDebounceValue] = useState(value);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebounceValue(value);
-    }, delay);
-
-    return () => clearTimeout(timeout);
-  }, [value, delay]);
-
-  return debounceValue;
-};
+import useDebounce from './../../hooks/useDebounce';
 
 export function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
 
   const debounceSearchQuery = useDebounce(searchQuery, 2000);
 
   const handleRequest = () => {
+    /* поиск по карточкам без запросов на сервер
+
     const filterCards = [].filter((item) => 
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setCards(filterCards);
-    /* api
-      .search(searchQuery)
-      .then((res) => setCards(res))
-      .catch((err) => console.log(err)); */
+    ); 
+    setCards(filterCards);*/
+    
+    api.search(searchQuery).then((res) => setCards(res))
   };
 
   useEffect(() => {
@@ -58,7 +46,16 @@ export function App() {
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setCards([...filteredCards]) */
+    Promise.all([api.getProductsList(), api.getUserInfo()]).then(([productsData, userData]) => {
+      setCards(productsData.products);
+      setCurrentUser(userData)
+    });
+
+    /* получение данных без Promise
+
     api.getProductsList().then((data) => setCards(data.products));
+    api.getUserInfo().then((userData) => setCurrentUser(userData)); */
+
   }, [searchQuery]);
 
   return (

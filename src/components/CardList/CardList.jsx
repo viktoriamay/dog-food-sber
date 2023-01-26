@@ -6,7 +6,7 @@ export function CardList({data}) {
     <div className='cards'>
         {
           data.map((item, index) => (
-            <Card {...item} key={`${index}-${item.name}`} />
+            <Card {...item} key={item._id} />
           ))
         }
     </div>
