@@ -69,6 +69,16 @@ export function App() {
     });
   }
 
+  function handleProductLike(product) {
+    const liked = product.likes.some((id) => id === currentUser?._id);
+    api.changeLikeProduct(product._id, liked).then((newCard) => {
+      const newProducts = cards.map((cardState) => {
+        return cardState._id === newCard._id ? newCard : cardState;
+      });
+      setCards(newProducts);
+    });
+  }
+
   return (
     <div className="App">
       <Header user={currentUser} onUpdateUser={handleUpdateUser}>
@@ -80,7 +90,7 @@ export function App() {
       <main className='content container'>
         <SearchInfo searchText={searchQuery} searchCount={cards.length} />
         <div className='content__cards'>
-          <CardList data={cards}  />
+          <CardList data={cards} currentUser={currentUser} onProductLike={handleProductLike} />
         </div>
       </main>
       <Footer />
