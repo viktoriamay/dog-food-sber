@@ -1,6 +1,4 @@
 import cn from 'classnames';
-import api from '../../utils/api';
-
 import './Card.css';
 import { ReactComponent as Save } from './save.svg';
 
