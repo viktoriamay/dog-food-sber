@@ -32,6 +32,7 @@ export const ProductPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    api.getUserInfo().then((userData) => setCurrentUser(userData));
     api
       .getProductById(productId)
       .then((productData) => setProduct(productData))
@@ -39,21 +40,28 @@ export const ProductPage = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
+  const onProductLike = (product) => {
+    
+  }
+
+  /* function handleProductLike(product) {
+    const liked = product.likes.some((id) => id === currentUser?._id);
+    api.changeLikeProduct(product._id, liked).then((newCard) => {
+      const newProducts = cards.map((cardState) => {
+        return cardState._id === newCard._id ? newCard : cardState;
+      });
+      setCards(newProducts);
+    });
+  } */
+
   return (
     <>
-      <Header user={currentUser}>
-        <>
-          <Logo className='logo logo_place_header' href='/' />
-          <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
-        </>
-      </Header>
+      
       <main className='content container'>
         <div className='content__cards'>
-          {isLoading ? <Spinner /> : <Product />}
-          content
+          {isLoading ? <Spinner /> : <Product {...product} currentUser={currentUser} onProductLike={onProductLike} />}
         </div>
       </main>
-      <Footer />
     </>
   )
 }

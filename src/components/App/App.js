@@ -9,6 +9,10 @@ import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
 import api from '../../utils/api';
 import useDebounce from './../../hooks/useDebounce';
+import { CatalogPage } from '../../pages/catalog/CatalogPage';
+import { ProductPage } from '../../pages/product/ProductPage';
+import { Route, Routes } from 'react-router-dom';
+import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -25,7 +29,7 @@ export function App() {
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     ); 
     setCards(filterCards);*/
-    
+
     api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err))
   };
 
@@ -64,7 +68,7 @@ export function App() {
   }, [searchQuery]);
 
   function handleUpdateUser(onUpdateUser) {
-    api.setUserInfo({...onUpdateUser }).then((newUser) => {
+    api.setUserInfo({ ...onUpdateUser }).then((newUser) => {
       setCurrentUser(newUser);
     });
   }
@@ -89,9 +93,23 @@ export function App() {
       </Header>
       <main className='content container'>
         <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-        <div className='content__cards'>
-          <CardList data={cards} currentUser={currentUser} onProductLike={handleProductLike} />
-        </div>
+        <Routes>
+          <Route
+            path='/' element={
+              <CatalogPage
+                cards={cards}
+                currentUser={currentUser}
+                handleProductLike={handleProductLike}
+              />
+            }>
+          </Route>
+          <Route
+            path='/product/:productId' element={
+              <ProductPage />
+            }>
+          </Route>
+          <Route path='*' element={<NoMatchFound />}></Route>
+        </Routes>
       </main>
       <Footer />
     </div>
