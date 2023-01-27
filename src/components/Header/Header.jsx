@@ -4,7 +4,7 @@ import './Header.css';
 export function Header({children, user, onUpdateUser}) {
   const handleClickButtonEdit = (e) => {
     e.preventDefault();
-    onUpdateUser({about: "Писатель"})
+    onUpdateUser({about: "Студентка", name: 'Виктория'})
   };
 
   return (

@@ -63,8 +63,10 @@ export function App() {
 
   }, [searchQuery]);
 
-  function handleUpdateUser() {
-    
+  function handleUpdateUser(onUpdateUser) {
+    api.setUserInfo({...onUpdateUser }).then((newUser) => {
+      setCurrentUser(newUser);
+    });
   }
 
   return (
@@ -78,7 +80,7 @@ export function App() {
       <main className='content container'>
         <SearchInfo searchText={searchQuery} searchCount={cards.length} />
         <div className='content__cards'>
-          <CardList data={cards} />
+          <CardList data={cards}  />
         </div>
       </main>
       <Footer />

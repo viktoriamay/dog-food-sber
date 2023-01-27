@@ -19,6 +19,14 @@ class Api {
   search(searchQuery) {
     return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponce);
   }
+
+  setUserInfo(dataUser) {
+    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponce);
+  }
+
+  changeLikeProduct(productId, isLike ) {
+    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT"}).then(onResponce);
+  }
 }
 
 const config = {
