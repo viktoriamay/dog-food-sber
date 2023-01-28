@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
-import { CardList } from '../CardList/CardList';
 import SearchInfo from '../SearchInfo/SearchInfo';
 import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
@@ -103,11 +102,7 @@ export function App() {
               />
             }>
           </Route>
-          <Route
-            path='/product/:productId' element={
-              <ProductPage />
-            }>
-          </Route>
+          <Route path='/product/:productId' element={<ProductPage />}></Route>
           <Route path='*' element={<NoMatchFound />}></Route>
         </Routes>
       </main>
