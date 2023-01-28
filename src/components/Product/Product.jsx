@@ -17,11 +17,11 @@ export const Product = ({
   currentUser,
   description,
 }) => {
+  const navigate = useNavigate();
   const discount_price = Math.round(price - (price * discount) / 100);
   const isLike = likes.some((id) => id === currentUser?._id);
   const desctiptionHTML = { __html: description };
 
-  let navigate = useNavigate();
   
   const handleClick = () => {
     navigate('/');
