@@ -69,7 +69,7 @@ export const Product = ({
               В корзину
             </a>
           </div>
-          <button
+          <button 
             className={cn(s.favorite, { [s.favoriteActive]: isLike })}
             onClick={onProductLike}
           >

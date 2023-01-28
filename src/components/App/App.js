@@ -11,14 +11,14 @@ import useDebounce from './../../hooks/useDebounce';
 import { CatalogPage } from '../../pages/catalog/CatalogPage';
 import { ProductPage } from '../../pages/product/ProductPage';
 import { Route, Routes } from 'react-router-dom';
-import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
+import { NoMatchFound } from '../../pages/NoMatchFound/NoMatchFound';
 
 export function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
 
-  const debounceSearchQuery = useDebounce(searchQuery, 2000);
+  const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
   const handleRequest = () => {
 

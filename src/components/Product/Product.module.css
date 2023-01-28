@@ -176,11 +176,15 @@
 }
 
 .favorite svg {
-  fill: #ffffff;
+  fill: white;
+  stroke: #7b8e98;
+  stroke-width: 1.7px;
+  cursor: pointer;
 }
 
 .favoriteActive svg {
-  fill: #000000;
+  fill: #F44336;
+  stroke: #F44336;
   cursor: pointer;
 }
 

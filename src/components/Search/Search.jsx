@@ -1,8 +1,6 @@
 import './Search.css';
 import {ReactComponent as SearchIcon} from './ic-search.svg';
 import {ReactComponent as CloseIcon} from './ic-close-input.svg';
-import { useState } from 'react';
-
 
 function Search({onSubmit: propsOnSubmit, onInput}) {
   const handleInput = (e) => {
