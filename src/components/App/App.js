@@ -9,12 +9,13 @@ import Search from '../Search/Search';
 import api from '../../utils/api';
 import useDebounce from './../../hooks/useDebounce';
 import { Router } from './../../router/Router';
+import { UserContext } from './../../context/UserContext';
+import { CardContext } from '../../context/CardContext';
 
 export function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
   const handleRequest = () => {
@@ -79,19 +80,26 @@ export function App() {
     });
   }
 
+  const context = UserContext;
+
   return (
     <div className="App">
-      <Header user={currentUser} onUpdateUser={handleUpdateUser}>
-        <>
-          <Logo className='logo logo_place_header' href='/' />
-          <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
-        </>
-      </Header>
-      <main className='content container'>
-        <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-        <Router cards={cards} currentUser={currentUser} handleProductLike={handleProductLike} />
-      </main>
-      <Footer />
+      <CardContext.Provider value={{cards: cards}}>
+        <UserContext.Provider value={{ currentUser: currentUser, handleProductLike: handleProductLike }}>
+          <Header user={currentUser} onUpdateUser={handleUpdateUser}>
+            <>
+              <Logo className='logo logo_place_header' href='/' />
+
+              <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
+            </>
+          </Header>
+          <main className='content container'>
+            <SearchInfo searchText={searchQuery} searchCount={cards.length} />
+            <Router handleProductLike={handleProductLike} />
+          </main>
+          <Footer />
+        </UserContext.Provider>
+      </CardContext.Provider>
     </div>
   );
 }

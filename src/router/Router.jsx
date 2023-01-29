@@ -3,14 +3,12 @@ import { CatalogPage } from './../pages/catalog/CatalogPage';
 import { ProductPage } from './../pages/product/ProductPage';
 import { NoMatchFound } from './../pages/NoMatchFound/NoMatchFound';
 
-export const Router = ({cards, currentUser, handleProductLike}) => {
+export const Router = ({handleProductLike}) => {
   return (
     <Routes>
       <Route
         path='/' element={
           <CatalogPage
-            cards={cards}
-            currentUser={currentUser}
             handleProductLike={handleProductLike}
           />
         }>

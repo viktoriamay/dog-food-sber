@@ -2,6 +2,8 @@ import cn from 'classnames';
 import './Card.css';
 import { ReactComponent as Save } from './save.svg';
 import { Link } from 'react-router-dom';
+import { UserContext } from './../../context/UserContext';
+import { useContext } from 'react';
 
 const Card = ({
   name,
@@ -12,11 +14,11 @@ const Card = ({
   pictures,
   tags,
   likes,
-  currentUser,
   onProductLike,
   _id,
 }) => {
-  const liked = likes.some((id) => id === currentUser?._id);
+  const instance = useContext(UserContext);
+  const liked = likes.some((id) => id === instance?._id);
   const discount_price = Math.round(price - (price * discount) / 100);
   
   return (

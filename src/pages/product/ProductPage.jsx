@@ -3,6 +3,8 @@ import api from '../../utils/api';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { Product } from '../../components/Product/Product';
 import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from './../../context/UserContext';
 
 export const ProductPage = () => {
   const [cards, setCards] = useState([]);
@@ -10,6 +12,8 @@ export const ProductPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState(null);
+
+  const {handleProductLike} = useContext(UserContext);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ export const ProductPage = () => {
   };
   
   const onProductLike = (product) => {
-    
+    handleProductLike(product);
   }
 
   const {productId} = useParams();
