@@ -18,6 +18,8 @@ export function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  
+  console.log('hello');
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
