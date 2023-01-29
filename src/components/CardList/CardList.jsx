@@ -5,7 +5,7 @@ export function CardList({data, currentUser, onProductLike}) {
   return (
     <div className='cards'>
         {
-          data.map((item, index) => (
+          data.map((item) => (
             <Card {...item} key={item._id} currentUser={currentUser} onProductLike={onProductLike} />
           ))
         }

@@ -12,6 +12,7 @@ import { CatalogPage } from '../../pages/catalog/CatalogPage';
 import { ProductPage } from '../../pages/product/ProductPage';
 import { Route, Routes } from 'react-router-dom';
 import { NoMatchFound } from '../../pages/NoMatchFound/NoMatchFound';
+import { Router } from './../../router/Router';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -92,19 +93,7 @@ export function App() {
       </Header>
       <main className='content container'>
         <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-        <Routes>
-          <Route
-            path='/' element={
-              <CatalogPage
-                cards={cards}
-                currentUser={currentUser}
-                handleProductLike={handleProductLike}
-              />
-            }>
-          </Route>
-          <Route path='/product/:productId' element={<ProductPage />}></Route>
-          <Route path='*' element={<NoMatchFound />}></Route>
-        </Routes>
+        <Router cards={cards} currentUser={currentUser} handleProductLike={handleProductLike} />
       </main>
       <Footer />
     </div>
