@@ -8,10 +8,6 @@ import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
 import api from '../../utils/api';
 import useDebounce from './../../hooks/useDebounce';
-import { CatalogPage } from '../../pages/catalog/CatalogPage';
-import { ProductPage } from '../../pages/product/ProductPage';
-import { Route, Routes } from 'react-router-dom';
-import { NoMatchFound } from '../../pages/NoMatchFound/NoMatchFound';
 import { Router } from './../../router/Router';
 
 export function App() {
