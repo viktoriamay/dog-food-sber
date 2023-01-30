@@ -4,8 +4,10 @@ import s from './Product.module.css';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
-import { useEffect } from 'react';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { createBrowserHistory } from "history";
+
+const historyBack = createBrowserHistory();
 
 export const Product = ({
   pictures,
@@ -17,28 +19,19 @@ export const Product = ({
   currentUser,
   description,
 }) => {
+
   const discount_price = Math.round(price - (price * discount) / 100);
   const isLike = likes.some((id) => id === currentUser?._id);
   const desctiptionHTML = { __html: description };
-  
-  let navigate = useNavigate();
-  
-  const handleClick = () => {
-    navigate('/');
+    
+  const handleClickHistoryBack = () => {
+    historyBack.back()
   };
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.search.includes('name=dear')) {
-      navigate('/');
-    }
-  }, [location.search]);
 
   return (
     <>
       <div>
-        <button onClick={handleClick} className='btn'>
+        <button onClick={handleClickHistoryBack} className='btn'>
           Назад
         </button>
         <h1 className={s.productTitle}>{name}</h1>

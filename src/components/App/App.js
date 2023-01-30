@@ -13,7 +13,7 @@ import { CardContext } from '../../context/CardContext';
 import { isLiked } from './../../utils/utils';
 import { ThemeContext } from '../../context/ThemeContext';
 import { themes } from './../../context/ThemeContext';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
 import { ProductPage } from './../../pages/product/ProductPage';
 import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
@@ -42,16 +42,12 @@ export function App() {
   };
 
   useEffect(() => {
-    handleRequest();
+    handleRequest() 
   }, [debounceSearchQuery]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleRequest();
-  };
-
-  const handleInputChange = (inputValue) => {
-    setSearchQuery(inputValue);
   };
 
   useEffect(() => {
@@ -123,10 +119,8 @@ export function App() {
         <CardContext.Provider value={ valueProvider }>
           <UserContext.Provider value={userProvider }>
             <Header>
-              <>
                 <Logo className='logo logo_place_header' href='/' />
-                <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
-              </>
+                <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
             <main className={`content container content__${
                 theme.light ? 'light' : 'dark'

@@ -8,13 +8,11 @@ export const Favorites = () => {
   const { handleProductLike } = useContext(UserContext);
 
   return (
-    <>
       <div>
         <h3>Избранное</h3>
         <div className='content__cards'>
           <CardList cards={favorites} onProductLike={handleProductLike} />
         </div>
       </div>
-    </>
   );
 };

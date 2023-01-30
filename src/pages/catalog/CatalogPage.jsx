@@ -9,10 +9,8 @@ export const CatalogPage = () => {
   const {handleProductLike} = useContext(UserContext);
 
   return (
-    <>
       <div className='content__cards'>
         <CardList cards={cards} onProductLike={handleProductLike} />
       </div>
-    </>
   )
 }

@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
 
-export const ProductPage = () => {
+export const ProductPage = ({}) => {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,10 +28,10 @@ export const ProductPage = () => {
     api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err))
   };
   
-  const onProductLike = () => {
-    // handleProductLike(product);
+  /* const onProductLike = (product, _id) => {
+    handleProductLike(product);
   }
-
+ */
   const {productId} = useParams();
 
   useEffect(() => {
@@ -45,12 +45,10 @@ export const ProductPage = () => {
   }, [productId]);
 
   return (
-    <>
       <main className='content container'>
         <div className='content__cards'>
-          {isLoading ? <Spinner /> : <Product {...product} currentUser={currentUser} onProductLike={onProductLike} />}
+          {isLoading ? <Spinner /> : <Product {...product} currentUser={currentUser} onProductLike={handleProductLike} />}
         </div>
       </main>
-    </>
   )
 }
