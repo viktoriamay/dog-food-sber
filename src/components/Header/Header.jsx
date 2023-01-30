@@ -19,9 +19,9 @@ export function Header({children}) {
           <div className={s.iconsMenu}>
             <Link className={s.favoritesLink} to={'/favorites'}>
               <FavIcon />
-              {/* {favorites.length !== 0 && (
+              {favorites.length !== 0 && (
                 <span className={s.iconBubble}>{favorites.length}</span>
-              )} */}
+              )}
             </Link>
           </div>
         </div>

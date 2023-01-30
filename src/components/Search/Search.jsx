@@ -12,7 +12,7 @@ function Search({ onSubmit: propsOnSubmit, onInput }) {
 
   return (
     <>
-      {location.pathname === '/' ? (
+      
         <form className='search' onSubmit={propsOnSubmit}>
           <input
             type='text'
@@ -25,9 +25,7 @@ function Search({ onSubmit: propsOnSubmit, onInput }) {
             {false && <CloseIcon />}
           </button>
         </form>
-      ) : (
-        <></>
-      )}
+      
     </>
   )
 }
