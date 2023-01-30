@@ -1,15 +1,12 @@
 import { useContext } from 'react';
-import CardList from '../../components/CardList/card-list';
 import { CardContext } from '../../context/cardContext';
 import { UserContext } from '../../context/userContext';
+import CardList from '../../components/CardList/card-list';
 
 export const Favorite = () => {
   const { favorites } = useContext(CardContext);
   const { handleProductLike } = useContext(UserContext);
-
   
-  console.log('favorites in favorites page', favorites);
-
   return (
     <>
       <div>
