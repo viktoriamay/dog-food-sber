@@ -1,23 +1,30 @@
-import React from "react";
-import './Header.css';
+import React, { useContext } from "react";
+import s from './Header.module.css';
+import cn from 'classnames';
+import { ReactComponent as FavIcon } from './img/fav.svg';
 
-export function Header({children, user, onUpdateUser}) {
-  const handleClickButtonEdit = (e) => {
-    e.preventDefault();
-    onUpdateUser({about: "Студентка", name: 'Виктория'})
-  };
+
+import { CardContext } from './../../context/CardContext';
+import { ThemeContext } from "../../context/ThemeContext";
+import { Link } from 'react-router-dom';
+
+export function Header({children}) {
+  const { favorites } = useContext(CardContext);
+  const { toggleTheme } = useContext(ThemeContext);
 
   return (
-    <header className="header cover">
+    <header className={cn(s.header, 'cover')}>
       <div className="container">
-        {/* {user && <span>{user.email}</span>}
-        {user && <span>{user.name}</span>} */}
-
-        <span>{user?.email}</span>
-        <span>{user?.name}</span>
-        <button className="btn" onClick={handleClickButtonEdit}>Change</button>
-        <div className="header__wrapper">
+        <div className={s.wrapper}>
           {children}
+          <div className={s.iconsMenu}>
+            <Link className={s.favoritesLink} to={'/favorites'}>
+              <FavIcon />
+              {/* {favorites.length !== 0 && (
+                <span className={s.iconBubble}>{favorites.length}</span>
+              )} */}
+            </Link>
+          </div>
         </div>
       </div>
     </header>
