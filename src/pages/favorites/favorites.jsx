@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { CardContext } from '../../context/CardContext';
-import { UserContext } from '../../context/ГserContext';
-import CardList from '../../components/CardList/CardList';
+import { UserContext } from '../../context/UserContext';
+import { CardList } from '../../components/CardList/CardList';
 
 export const Favorites = () => {
   const { favorites } = useContext(CardContext);
