@@ -17,8 +17,8 @@ const Card = ({
   onProductLike,
   _id,
 }) => {
-  const instance = useContext(UserContext);
-  const liked = likes.some((id) => id === instance?._id);
+  const { currentUser } = useContext(UserContext);
+  const liked = likes.some((id) => id === currentUser?._id);
   const discount_price = Math.round(price - (price * discount) / 100);
   
   return (

@@ -1,10 +1,8 @@
 import './CardList.css';
 import Card from '../Card/Card';
-import { useContext } from 'react';
-import { CardContext } from './../../context/CardContext';
 
-export function CardList({onProductLike}) {
-  const {cards} = useContext(CardContext);
+export function CardList({onProductLike, cards = []}) {
+  
   return (
     <div className='cards'>
         {

@@ -28,8 +28,8 @@ export const ProductPage = () => {
     api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err))
   };
   
-  const onProductLike = (product) => {
-    handleProductLike(product);
+  const onProductLike = () => {
+    // handleProductLike(product);
   }
 
   const {productId} = useParams();
