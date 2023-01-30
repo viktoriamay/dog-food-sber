@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
-import s from './Header.module.css';
+import React from "react";
 import cn from 'classnames';
-import { ReactComponent as FavIcon } from './img/fav.svg';
-
-
+import { useContext } from "react";
+import s from './Header.module.css';
 import { CardContext } from './../../context/CardContext';
 import { ThemeContext } from "../../context/ThemeContext";
 import { Link } from 'react-router-dom';
+import { ReactComponent as FavIcon } from './img/fav.svg';
 
 export function Header({children}) {
   const { favorites } = useContext(CardContext);
@@ -14,7 +13,7 @@ export function Header({children}) {
 
   return (
     <header className={cn(s.header, 'cover')}>
-      <div className="container">
+      <div className='container'>
         <div className={s.wrapper}>
           {children}
           <div className={s.iconsMenu}>
