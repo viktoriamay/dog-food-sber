@@ -1,6 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import SearchInfo from '../SearchInfo/SearchInfo';
@@ -11,11 +10,23 @@ import useDebounce from './../../hooks/useDebounce';
 import { Router } from './../../router/Router';
 import { UserContext } from './../../context/UserContext';
 import { CardContext } from '../../context/CardContext';
+import { isLiked } from './../../utils/utils';
+import { ThemeContext } from '../../context/ThemeContext';
+import { themes } from './../../context/ThemeContext';
+import { Route, Routes } from 'react-router-dom';
+import { CatalogPage } from './../../pages/catalog/CatalogPage';
+import { ProductPage } from './../../pages/product/ProductPage';
+import { FaqPage } from './../../pages/faq/FaqPage';
+import { Favorites } from '../../pages/favorites/favorites';
+import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
 
 export function App() {
   const [cards, setCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [theme, setTheme] = useState(themes.light);
+  const [favorites, setFavorites] = useState([]);
+
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
   const handleRequest = () => {
@@ -54,7 +65,11 @@ export function App() {
 
     Promise.all([api.getProductsList(), api.getUserInfo()]).then(([productsData, userData]) => {
       setCards(productsData.products);
-      setCurrentUser(userData)
+      setCurrentUser(userData);
+      const favProducts = productsData.products.filter((product) =>
+        isLiked(product.likes, userData._id)
+      );
+      setFavorites(favProducts);
     });
 
     /* получение данных без Promise
@@ -62,44 +77,76 @@ export function App() {
     api.getProductsList().then((data) => setCards(data.products));
     api.getUserInfo().then((userData) => setCurrentUser(userData)); */
 
-  }, [searchQuery]);
+  }, []);
 
-  function handleUpdateUser(onUpdateUser) {
-    api.setUserInfo({ ...onUpdateUser }).then((newUser) => {
+  function handleUpdateUser(userUpdateData) {
+    api.setUserInfo(userUpdateData).then((newUser) => {
       setCurrentUser(newUser);
     });
   }
 
   function handleProductLike(product) {
-    const liked = product.likes.some((id) => id === currentUser?._id);
+    const liked = isLiked(product.likes, currentUser?._id);
+
     api.changeLikeProduct(product._id, liked).then((newCard) => {
       const newProducts = cards.map((cardState) => {
         return cardState._id === newCard._id ? newCard : cardState;
       });
+
+      if (!liked) {
+        setFavorites((prevState) => [...prevState, newCard]);
+      } else
+        setFavorites((prevState) =>
+          prevState.filter((card) => card._id !== newCard._id)
+        );
       setCards(newProducts);
     });
   }
 
-  const context = UserContext;
+  const valueProvider = {
+    cards,
+    favorites
+  };
+
+  const userProvider = {
+    currentUser: currentUser,
+    handleProductLike: handleProductLike
+  };
+
+  const toggleTheme = () => {
+    theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark);
+  };
 
   return (
     <div className="App">
-      <CardContext.Provider value={{cards: cards}}>
-        <UserContext.Provider value={{ currentUser: currentUser, handleProductLike: handleProductLike }}>
-          <Header user={currentUser} onUpdateUser={handleUpdateUser}>
-            <>
-              <Logo className='logo logo_place_header' href='/' />
-
-              <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
-            </>
-          </Header>
-          <main className='content container'>
-            <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-            <Router handleProductLike={handleProductLike} />
-          </main>
-          <Footer />
-        </UserContext.Provider>
-      </CardContext.Provider>
+      <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
+        <CardContext.Provider value={{ valueProvider }}>
+          <UserContext.Provider value={{ userProvider }}>
+            <Header>
+              <>
+                <Logo className='logo logo_place_header' href='/' />
+                <Search onSubmit={handleFormSubmit} onInput={handleInputChange} />
+              </>
+            </Header>
+            <main className={`content container content__${
+                theme.light ? 'light' : 'dark'
+              }`}>
+              <SearchInfo searchText={searchQuery} searchCount={cards.length} />
+              <Routes>
+                <Route path='/' element={<CatalogPage />}></Route>
+                <Route
+                  path='/product/:productId'
+                  element={<ProductPage />}
+                ></Route>
+                <Route path='/faq' element={<FaqPage />}></Route>
+                <Route path='/favorites' element={<Favorites />}></Route>
+                <Route path='*' element={<NoMatchFound />}></Route>
+              </Routes>
+            </main>
+            <Footer />
+          </UserContext.Provider>
+        </CardContext.Provider>
+      </ThemeContext.Provider>
     </div>
   );
 }

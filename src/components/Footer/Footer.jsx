@@ -6,6 +6,7 @@ import viber from "./logo-viber.svg"
 import whatsapp from "./logo-whatsapp.svg"
 import vk from "./logo-vk.svg"
 import Logo from "../Logo/Logo"
+import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
@@ -35,21 +36,21 @@ export function Footer() {
             </nav>
           </div>
           <div className="footer__col">
-            <nav className="menu-bottom">
-              <a href="#" className="menu-bottom__item">
-                Оплата и доставка
-              </a>
-              <a href="#" className="menu-bottom__item">
-                Часто спрашивают
-              </a>
-              <a href="#" className="menu-bottom__item">
-                Обратная связь
-              </a>
-              <a href="#" className="menu-bottom__item">
-                Контакты
-              </a>
-            </nav>
-          </div>
+						<nav className="menu-bottom">
+							<a href="/catalogue" className="menu-bottom__item">
+								Оплата и доставка
+							</a>
+							<Link to={'/faq'} href="/catalogue" className="menu-bottom__item">
+								Часто спрашивают
+							</Link>
+							<a href="/catalogue" className="menu-bottom__item">
+								Обратная связь
+							</a>
+							<a href="/catalogue" className="menu-bottom__item">
+								Контакты
+							</a>
+						</nav>
+					</div>
           <div className="footer__col">
             <div className="contacts">
               <p className="contacts__title">Мы на связи</p>
