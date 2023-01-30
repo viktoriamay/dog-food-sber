@@ -1,7 +1,7 @@
 import React from "react";
 import cn from 'classnames';
 import { useContext } from "react";
-import s from './Header.modules.css';
+import s from './Header.module.css';
 import { CardContext } from './../../context/CardContext';
 import { ThemeContext } from "../../context/ThemeContext";
 import { Link } from 'react-router-dom';

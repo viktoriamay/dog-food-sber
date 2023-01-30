@@ -2,10 +2,10 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
-import SearchInfo from '../SearchInfo/SearchInfo';
-import Logo from '../Logo/Logo';
 import Search from '../Search/Search';
+import SearchInfo from '../SearchInfo/SearchInfo';
 import api from '../../utils/api';
+import Logo from '../Logo/Logo';
 import useDebounce from './../../hooks/useDebounce';
 import { Router } from './../../router/Router';
 import { UserContext } from './../../context/UserContext';
@@ -14,8 +14,8 @@ import { isLiked } from './../../utils/utils';
 import { ThemeContext } from '../../context/ThemeContext';
 import { themes } from './../../context/ThemeContext';
 import { Route, Routes } from 'react-router-dom';
-import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { ProductPage } from './../../pages/product/ProductPage';
+import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
 import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
@@ -120,8 +120,8 @@ export function App() {
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
-        <CardContext.Provider value={{ valueProvider }}>
-          <UserContext.Provider value={{ userProvider }}>
+        <CardContext.Provider value={ valueProvider }>
+          <UserContext.Provider value={userProvider }>
             <Header>
               <>
                 <Logo className='logo logo_place_header' href='/' />
