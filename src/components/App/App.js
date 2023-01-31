@@ -7,13 +7,12 @@ import SearchInfo from '../SearchInfo/SearchInfo';
 import api from '../../utils/api';
 import Logo from '../Logo/Logo';
 import useDebounce from './../../hooks/useDebounce';
-import { Router } from './../../router/Router';
 import { UserContext } from './../../context/UserContext';
 import { CardContext } from '../../context/CardContext';
 import { isLiked } from './../../utils/utils';
 import { ThemeContext } from '../../context/ThemeContext';
 import { themes } from './../../context/ThemeContext';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { ProductPage } from './../../pages/product/ProductPage';
 import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
@@ -38,11 +37,11 @@ export function App() {
     ); 
     setCards(filterCards);*/
 
-    api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err))
+    api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err)).finally();
   };
 
   useEffect(() => {
-    handleRequest() 
+    handleRequest()
   }, [debounceSearchQuery]);
 
   const handleFormSubmit = (e) => {
@@ -74,12 +73,6 @@ export function App() {
     api.getUserInfo().then((userData) => setCurrentUser(userData)); */
 
   }, []);
-
-  function handleUpdateUser(userUpdateData) {
-    api.setUserInfo(userUpdateData).then((newUser) => {
-      setCurrentUser(newUser);
-    });
-  }
 
   function handleProductLike(product) {
     const liked = isLiked(product.likes, currentUser?._id);
@@ -119,7 +112,7 @@ export function App() {
         <CardContext.Provider value={ valueProvider }>
           <UserContext.Provider value={userProvider }>
             <Header>
-                <Logo className='logo logo_place_header' href='/' />
+                <Logo className='logo logo_place_header' />
                 <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
             <main className={`content container content__${

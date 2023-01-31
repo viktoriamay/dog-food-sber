@@ -3,13 +3,13 @@ import cn from 'classnames';
 import { useContext } from "react";
 import s from './Header.module.css';
 import { CardContext } from './../../context/CardContext';
-import { ThemeContext } from "../../context/ThemeContext";
+// import { ThemeContext } from "../../context/ThemeContext";
 import { Link } from 'react-router-dom';
 import { ReactComponent as FavIcon } from './img/fav.svg';
 
 export function Header({children}) {
   const { favorites } = useContext(CardContext);
-  const { toggleTheme } = useContext(ThemeContext);
+  // const { toggleTheme } = useContext(ThemeContext);
 
   return (
     <header className={cn(s.header, 'cover')}>

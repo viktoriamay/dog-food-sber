@@ -4,7 +4,6 @@ import s from './Product.module.css';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
-import { useNavigate } from 'react-router-dom';
 import { createBrowserHistory } from "history";
 
 const historyBack = createBrowserHistory();
