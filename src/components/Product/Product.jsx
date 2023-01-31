@@ -46,7 +46,7 @@ export const Product = ({
           <span className={discount ? s.oldPrice : s.price}>
             {price}&nbsp;₽
           </span>
-          {discount && (
+          {!!discount && (
             <span className={cn(s.price, 'card__price_type_discount')}>
               {discount_price}&nbsp;₽
             </span>
