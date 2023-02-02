@@ -4,9 +4,7 @@ import s from './Product.module.css';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
-import { createBrowserHistory } from "history";
-
-const historyBack = createBrowserHistory();
+import { useNavigate } from 'react-router-dom';
 
 export const Product = ({
   pictures,
@@ -23,14 +21,15 @@ export const Product = ({
   const isLike = likes.some((id) => id === currentUser?._id);
   const desctiptionHTML = { __html: description };
     
-  const handleClickHistoryBack = () => {
-    historyBack.back()
-  };
+  const navigate = useNavigate();
 
+  const handleClickBack = () => {
+    navigate(-1)
+  }
   return (
     <>
       <div>
-        <button onClick={handleClickHistoryBack} className='btn'>
+        <button onClick={handleClickBack} className='btn'>
           Назад
         </button>
         <h1 className={s.productTitle}>{name}</h1>
