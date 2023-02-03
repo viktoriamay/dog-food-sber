@@ -9,13 +9,16 @@ export function Form () {
   });
 
   const handleChange = (e) => {
-    setContactInfo({ ...contactInfo, [e.target.name]: e.target.value });
+    setContactInfo({ 
+      ...contactInfo, 
+      [e.target.name]: 
+        e.target.name === 'checked' ? e.target.checked : e.target.value });
   };
 
   const handleSubmit = (e) => {
     /* пример апи запроса 
     api.sendReq(contactInfo); */
-    
+
     e.preventDefault();
     console.log(contactInfo);
   }
@@ -47,6 +50,7 @@ export function Form () {
         value={contactInfo.phoneNumber}
         onChange={handleChange}
       />
+      <input type='checkbox' name='checked' onChange={handleChange} />
       <button className={s.button}> Отправить</button>
     </form>
   )
