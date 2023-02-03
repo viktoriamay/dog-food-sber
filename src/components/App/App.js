@@ -18,6 +18,7 @@ import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
 import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
+import { Form } from '../Form/Form';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -127,6 +128,8 @@ export function App() {
                 ></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
                 <Route path='/favorites' element={<Favorites />}></Route>
+                <Route path='/form' element={<Form />}></Route>
+
                 <Route path='*' element={<NoMatchFound />}></Route>
               </Routes>
             </main>
