@@ -26,6 +26,8 @@ export function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [theme, setTheme] = useState(themes.light);
   const [favorites, setFavorites] = useState([]);
+  const [contacts, setContacts] = useState([]);
+
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
@@ -107,6 +109,11 @@ export function App() {
     theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark);
   };
 
+  const addContact = (contact) => {
+    setContacts([...contacts, contact])
+    console.log(contact);
+  };
+
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
@@ -128,10 +135,21 @@ export function App() {
                 ></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
                 <Route path='/favorites' element={<Favorites />}></Route>
-                <Route path='/form' element={<Form />}></Route>
+                <Route path='/form' element={<Form addContact={addContact} />}></Route>
 
                 <Route path='*' element={<NoMatchFound />}></Route>
               </Routes>
+              <div>
+              {!!contacts.length && contacts.map((el) => (
+    
+                <div key={Math.random() * 100}>
+                
+                  <p>{el.name}</p>
+                  <p>{el.lastName}</p>
+                  <p>{el.phoneNumber}</p>
+                  <p>{el.checked}</p>
+                </div>))}
+                </div>
             </main>
             <Footer />
           </UserContext.Provider>

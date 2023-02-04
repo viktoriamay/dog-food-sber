@@ -1,11 +1,12 @@
 import s from './Form.module.css';
 import { useState } from 'react';
 
-export function Form () {
+export function Form ({addContact}) {
   const [contactInfo, setContactInfo] = useState({
     name: '',
     lastName: '',
     phoneNumber: '',
+    checked: ''
   });
 
   const handleChange = (e) => {
@@ -20,7 +21,9 @@ export function Form () {
     api.sendReq(contactInfo); */
 
     e.preventDefault();
-    console.log(contactInfo);
+    addContact(contactInfo);
+
+    // console.log(contactInfo);
   }
 
   return (
@@ -31,7 +34,7 @@ export function Form () {
         type='text'
         name='name'
         placeholder='Имя'
-        value={contactInfo.title}
+        value={contactInfo.name}
         onChange={handleChange}
       />
       <input
@@ -50,6 +53,7 @@ export function Form () {
         value={contactInfo.phoneNumber}
         onChange={handleChange}
       />
+      
       <input type='checkbox' name='checked' onChange={handleChange} />
       <button className={s.button}> Отправить</button>
     </form>
