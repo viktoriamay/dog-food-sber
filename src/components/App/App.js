@@ -19,6 +19,7 @@ import { FaqPage } from './../../pages/faq/FaqPage';
 import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
 import { Form } from '../Form/Form';
+import { RegistrationForm } from './../Form/RegistrationForm';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -110,8 +111,7 @@ export function App() {
   };
 
   const addContact = (contact) => {
-    setContacts([...contacts, contact])
-    console.log(contact);
+    setContacts([...contacts, contact]);
   };
 
   return (
@@ -135,11 +135,11 @@ export function App() {
                 ></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
                 <Route path='/favorites' element={<Favorites />}></Route>
-                <Route path='/form' element={<Form addContact={addContact} />}></Route>
+                <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route>
 
                 <Route path='*' element={<NoMatchFound />}></Route>
               </Routes>
-              <div>
+              {/* пример вывода информации из формы
               {!!contacts.length && contacts.map((el) => (
     
                 <div key={Math.random() * 100}>
@@ -148,8 +148,7 @@ export function App() {
                   <p>{el.lastName}</p>
                   <p>{el.phoneNumber}</p>
                   <p>{el.checked}</p>
-                </div>))}
-                </div>
+                </div>))} */}
             </main>
             <Footer />
           </UserContext.Provider>
