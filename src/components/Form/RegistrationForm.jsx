@@ -4,7 +4,7 @@ import s from './Form.module.css';
 
 export const RegistrationForm = () => {
   
-  const {register, handleSubmit, formState: {errors}} = useForm();
+  const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onSubmit'});
   const onSubmit = data => {
     console.log(data);
   }
@@ -40,9 +40,13 @@ export const RegistrationForm = () => {
         placeholder='Пароль'
         {...register('password', {
           required: 'Обязательное поле',
-          minLength: {
-            value: 5,
-            message: 'Слишком короткий пароль'
+          // minLength: {
+          //   value: 5,
+          //   message: 'Слишком короткий пароль'
+          // },
+          pattern: {
+            value:  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            message: `Пароль должен содержать минимум 11 символов, одну букву латинского алфавита и одну цифру`
           }
         })}
         // value={contactInfo.lastName}
