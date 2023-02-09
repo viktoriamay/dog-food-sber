@@ -20,6 +20,7 @@ import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
 import { Form } from '../Form/Form';
 import { RegistrationForm } from './../Form/RegistrationForm';
+import { Modal } from '../Modal/Modal';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -28,6 +29,7 @@ export function App() {
   const [theme, setTheme] = useState(themes.light);
   const [favorites, setFavorites] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [activeModal, setActiveModal] = useState(false);
 
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
@@ -119,10 +121,14 @@ export function App() {
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
         <CardContext.Provider value={ valueProvider }>
           <UserContext.Provider value={userProvider }>
-            <Header>
+            <Header setActiveModal={setActiveModal}>
                 <Logo className='logo logo_place_header' />
                 <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
+            
+            <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+              <RegistrationForm addContact={addContact} />
+            </Modal>
             <main className={`content container content__${
                 theme.light ? 'light' : 'dark'
               }`}>
@@ -135,7 +141,7 @@ export function App() {
                 ></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
                 <Route path='/favorites' element={<Favorites />}></Route>
-                <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route>
+                {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
 
                 <Route path='*' element={<NoMatchFound />}></Route>
               </Routes>

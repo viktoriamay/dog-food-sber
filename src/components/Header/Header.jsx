@@ -7,7 +7,7 @@ import { CardContext } from './../../context/CardContext';
 import { Link } from 'react-router-dom';
 import { ReactComponent as FavIcon } from './img/fav.svg';
 
-export function Header({children}) {
+export function Header({children, setActiveModal}) {
   const { favorites } = useContext(CardContext);
   // const { toggleTheme } = useContext(ThemeContext);
 
@@ -24,6 +24,7 @@ export function Header({children}) {
               )}
             </Link>
           </div>
+            <div style={{cursor: 'pointer', border: '2px solid black', padding: '5px 10px', borderRadius: '20px'}} onClick={() => setActiveModal(true)}>Вход</div>
         </div>
       </div>
     </header>

@@ -14,6 +14,9 @@ export const RegistrationForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Регистрация</h3>
+      <div style={{color: 'red'}}>
+        {errors?.name && <p>{errors?.name?.message}</p>}
+      </div>
       <input
         className={s.input}
         type='text'
@@ -30,8 +33,8 @@ export const RegistrationForm = () => {
         // onChange={handleChange}
         //ctrl shift i
       />
-      <div>
-        {errors?.name && <p>{errors?.name?.message}</p>}
+      <div style={{color: 'red'}}>
+        {errors?.password && <p>{errors?.password?.message}</p>}
       </div>
       <input
         className={s.input}
@@ -52,9 +55,6 @@ export const RegistrationForm = () => {
         // value={contactInfo.lastName}
         // onChange={handleChange}
       />
-      <div>
-        {errors?.password && <p>{errors?.password?.message}</p>}
-      </div>
       <input
         className={s.input}
         type='number'
