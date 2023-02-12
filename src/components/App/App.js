@@ -116,6 +116,17 @@ export function App() {
     setContacts([...contacts, contact]);
   };
 
+  /* удаление товара по содержащейся в названии изображения фразы
+  
+  useEffect(() => {
+    const deleteCard = async (id) => {
+      await api.deleteProductById(id)
+    }
+    const filteredCards = cards.filter((el) => el.pictures?.includes('maxi-opt'));
+    console.log(filteredCards)
+    filteredCards.forEach(card => deleteCard(card._id))
+  }, []) */
+
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
@@ -126,7 +137,7 @@ export function App() {
                 <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
             
-            <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+            <Modal  activeModal={activeModal} setActiveModal={setActiveModal}>
               <RegistrationForm addContact={addContact} />
             </Modal>
             <main className={`content container content__${

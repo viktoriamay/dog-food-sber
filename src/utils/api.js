@@ -17,8 +17,12 @@ class Api {
   }
 
   getProductById(idProduct) {
-    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers }).then(onResponce);
+    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers, method: "DELETE" }).then(onResponce);
   }
+
+  deleteProductById(idProduct) {
+    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers }).then(onResponce);
+  }  
 
   search(searchQuery) {
     return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponce);
