@@ -34,6 +34,16 @@ export function App() {
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
+  const checkCardLocal = (item) => {
+    // return true; вернуть все карточки 
+    return (
+      !item.pictures.includes('maxi-opt') // фильтрация по картинкам
+      && !item.pictures.includes('bipbap') 
+      && !item.pictures.includes('pinimg') 
+      && new Date(item.created_at) < new Date('2022-12-14T11:22:43.008Z') // фильтрация по дате создания (показывать те, которые были созданы до определенной даты) 
+    )
+  }
+
   const handleRequest = () => {
 
     /* поиск по карточкам без запросов на сервер
@@ -43,7 +53,11 @@ export function App() {
     ); 
     setCards(filterCards);*/
 
-    api.search(searchQuery).then((res) => setCards(res)).catch((err) => console.log(err)).finally();
+    api
+      .search(searchQuery)
+      .then((res) => setCards(res.filter(e => checkCardLocal(e))))
+      .catch((err) => console.log(err))
+      .finally();
   };
 
   useEffect(() => {
@@ -65,7 +79,7 @@ export function App() {
     setCards([...filteredCards]) */
 
     Promise.all([api.getProductsList(), api.getUserInfo()]).then(([productsData, userData]) => {
-      setCards(productsData.products);
+      setCards(productsData.products.filter(e => checkCardLocal(e)));
       setCurrentUser(userData);
       const favProducts = productsData.products.filter((product) =>
         isLiked(product.likes, userData._id)
@@ -79,6 +93,7 @@ export function App() {
     api.getUserInfo().then((userData) => setCurrentUser(userData)); */
 
   }, []);
+
 
   function handleProductLike(product) {
     const liked = isLiked(product.likes, currentUser?._id);
@@ -122,9 +137,10 @@ export function App() {
     const deleteCard = async (id) => {
       await api.deleteProductById(id)
     }
-    const filteredCards = cards.filter((el) => el.pictures?.includes('maxi-opt'));
-    console.log(filteredCards)
-    filteredCards.forEach(card => deleteCard(card._id))
+    const filteredCards = cards.filter((el) => !el.pictures?.includes('maxi-opt'));
+    // filteredCards.forEach(card => deleteCard(card._id))
+    // console.log(filteredCards);
+    setCards(filteredCards);
   }, []) */
 
   return (

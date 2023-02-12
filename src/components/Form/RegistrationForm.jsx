@@ -9,8 +9,6 @@ export const RegistrationForm = () => {
     console.log(data);
   }
 
-  console.log(errors);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h3>Регистрация</h3>
