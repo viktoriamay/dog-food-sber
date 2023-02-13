@@ -18,6 +18,8 @@ export const Sort = () => {
     // setCurrentSort(id);
     onSortData(id);
   }
+
+  
   
   return (
     <div className='sort'>

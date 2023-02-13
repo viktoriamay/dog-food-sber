@@ -57,7 +57,7 @@ export function App() {
       .search(searchQuery)
       .then((res) => setCards(res.filter(e => checkCardLocal(e))))
       .catch((err) => console.log(err))
-      .finally();
+      // .finally();
   };
 
   useEffect(() => {
@@ -67,6 +67,10 @@ export function App() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleRequest();
+  };
+
+  const handleInputChange = (inputValue) => {
+    setSearchQuery(inputValue);
   };
 
   useEffect(() => {
@@ -94,6 +98,12 @@ export function App() {
 
   }, []);
 
+  function handleUpdateUser(userUpdateData) {
+    api.setUserInfo(userUpdateData).then((newUser) => {
+      setCurrentUser(newUser);
+    });
+  }
+
 
   function handleProductLike(product) {
     const liked = isLiked(product.likes, currentUser?._id);
@@ -113,35 +123,40 @@ export function App() {
     });
   }
 
-  console.log({ cards });
+  // console.log({ cards });
 
-  
   const sortedData = (currentSort) => { //currentSort === id
     switch (currentSort) {
       case 'popular': 
-      setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)]); 
+        setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)]); 
       break;
+
       case 'newest': 
-      setCards([...cards.sort((a, b) => new Date(b?.created_at) - new Date(a?.created_at))]); 
+        setCards([...cards.sort((a, b) => new Date(b?.created_at) - new Date(a?.created_at))]); 
       break;
+
       case 'cheep': 
-      setCards([...cards.sort((a, b) => a?.price - b?.price)]); 
+        setCards([...cards.sort((a, b) => a?.price - b?.price)]); 
       break;
+
       case 'expensive': 
-      setCards([...cards.sort((a, b) => b?.price - a?.price)]); 
+        setCards([...cards.sort((a, b) => b?.price - a?.price)]); 
       break;
+
       case 'rating': 
-      setCards([...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length)]); 
+        setCards([...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length)]); 
       break;
+
       case 'discount': 
-      setCards([...cards.sort((a, b) => b?.discount - a?.discount)]); 
+        setCards([...cards.sort((a, b) => b?.discount - a?.discount)]); 
       break;
+
       default:
         setCards([...cards.sort((a, b) => a.price - b.price)]);
-        break;
+      break;
       }
     }
-    
+     
   const valueProvider = {
     cards,
     favorites,
