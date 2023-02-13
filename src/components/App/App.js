@@ -35,7 +35,7 @@ export function App() {
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
   const checkCardLocal = (item) => {
-    // return true; вернуть все карточки 
+    // return true; //вернуть все карточки 
     return (
       !item.pictures.includes('maxi-opt') // фильтрация по картинкам
       && !item.pictures.includes('bipbap') 
@@ -113,9 +113,40 @@ export function App() {
     });
   }
 
+  console.log({ cards });
+
+  
+  const sortedData = (currentSort) => { //currentSort === id
+    switch (currentSort) {
+      case 'popular': 
+      setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)]); 
+      break;
+      case 'newest': 
+      setCards([...cards.sort((a, b) => new Date(b?.created_at) - new Date(a?.created_at))]); 
+      break;
+      case 'cheep': 
+      setCards([...cards.sort((a, b) => a?.price - b?.price)]); 
+      break;
+      case 'expensive': 
+      setCards([...cards.sort((a, b) => b?.price - a?.price)]); 
+      break;
+      case 'rating': 
+      setCards([...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length)]); 
+      break;
+      case 'discount': 
+      setCards([...cards.sort((a, b) => b?.discount - a?.discount)]); 
+      break;
+      default:
+        setCards([...cards.sort((a, b) => a.price - b.price)]);
+        break;
+      }
+    }
+    
   const valueProvider = {
     cards,
-    favorites
+    favorites,
+    onSortData: sortedData,
+    // setCurrentSort
   };
 
   const userProvider = {
@@ -161,7 +192,7 @@ export function App() {
               }`}>
               <SearchInfo searchText={searchQuery} searchCount={cards.length} />
               <Routes>
-                <Route path='/' element={<CatalogPage />}></Route>
+                <Route path='/' element={<CatalogPage onSortData={sortedData} />}></Route>
                 <Route
                   path='/product/:productId'
                   element={<ProductPage />}
