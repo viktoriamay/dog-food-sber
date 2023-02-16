@@ -18,6 +18,7 @@
 
 .sort__link_selected {
 	color: #1A1A1A;
+  cursor: pointer;
 }
 
 .sort__link:hover {

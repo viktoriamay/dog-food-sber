@@ -1,5 +1,5 @@
 import './Sort.css';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CardContext } from './../../context/CardContext';
 
 export const Sort = () => {
@@ -14,6 +14,8 @@ export const Sort = () => {
     {id: 'discount', title: 'По скидке'},
   ];
 
+  const [isActive, setIsActive] = useState(false);
+
   const handleChange = (id) => {
     // setCurrentSort(id);
     onSortData(id);
@@ -24,7 +26,7 @@ export const Sort = () => {
   return (
     <div className='sort'>
       {tabs.map(({id, title}) => (
-        <div key={id} className='sort__link' onClick={() => handleChange(id)}>
+        <div key={id} className={isActive ? 'sort__link_selected' : 'sort__link'} onClick={() => (handleChange(id))}>
           {title}
         </div>)
       )}

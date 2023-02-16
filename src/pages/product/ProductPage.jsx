@@ -5,6 +5,7 @@ import { Product } from '../../components/Product/Product';
 import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
+import { CardContext } from './../../context/CardContext';
 
 export const ProductPage = () => {
   const [cards, setCards] = useState([]);
@@ -14,6 +15,8 @@ export const ProductPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const {handleProductLike} = useContext(UserContext);
+  const {favorites} = useContext(CardContext);
+
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -37,8 +40,8 @@ export const ProductPage = () => {
   };
 
   const onProductLike = (e) => {
-    console.log(e);
-    // handleProductLike(product);
+    handleProductLike(product);
+    setProduct({...product});
   };
   
   const {productId} = useParams();
@@ -51,9 +54,8 @@ export const ProductPage = () => {
       .then((productData) => setProduct(productData))
       .catch((err) => console.log('err', err))
       .finally(() => setIsLoading(false));
-  }, [productId]);
+  }, [productId, favorites]);
 
-  console.log();
   return (
       <main className='content container'>
         <div className='content__cards'>

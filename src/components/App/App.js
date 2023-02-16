@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import Search from '../Search/Search';
@@ -105,7 +105,7 @@ export function App() {
   }
 
 
-  function handleProductLike(product) {
+  const handleProductLike = useCallback((product) => {
     const liked = isLiked(product.likes, currentUser?._id);
 
     api.changeLikeProduct(product._id, liked).then((newCard) => {
@@ -117,13 +117,14 @@ export function App() {
         setFavorites((prevState) => [...prevState, newCard]);
       } else
         setFavorites((prevState) =>
-          prevState.filter((card) => card._id !== newCard._id)
+        {
+          const res = prevState.filter((card) => card._id !== newCard._id)
+          return res;
+        }
         );
       setCards(newProducts);
     });
-  }
-
-  // console.log({ cards });
+  }, [cards, currentUser?._id])
 
   const sortedData = (currentSort) => { //currentSort === id
     switch (currentSort) {
