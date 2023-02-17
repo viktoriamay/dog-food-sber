@@ -3,11 +3,8 @@ import { Form } from './../Form/Form';
 import './Login.css'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
-import cn from 'classnames';
 
 export const Login = () => {
-  
-
   const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
 
   const emailRegister = register('email', {
@@ -42,7 +39,7 @@ export const Login = () => {
         <div className='auth__controls'>
           <input
             {...emailRegister}
-            className={'auth__input' + (errors?.email ? ' auth__input_error' : '')}
+            className={`auth__input ${errors?.email ? 'auth__input_error' : ''}`}
             type='email'
             name='email'
             placeholder='Email'
@@ -50,7 +47,7 @@ export const Login = () => {
           {errors.email && <p className='auth__error'>{errors?.email.message}</p>}
           <input
             {...passwordRegister}
-            className={'auth__input' + (errors?.password ? ' auth__input_error' : '')}
+            className={`auth__input ${errors?.password ? 'auth__input_error' : ''}`}
             type='password'
             name='password'
             placeholder='Пароль'
