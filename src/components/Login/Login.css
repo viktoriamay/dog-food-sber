@@ -6,6 +6,7 @@
   border: 1px solid #cfd8dc;
   border-radius: 0.75rem;
 }
+
 .auth__controls {
   display: flex;
   flex-direction: column;
@@ -19,6 +20,10 @@
   caret-color: #ffe44d;
 }
 
+.auth__input_error {
+  border: 1px solid #d81616;
+}
+
 .textarea {
   height: auto;
   min-height: 100px;
@@ -30,6 +35,7 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
 .auth__info {
   width: 100%;
   font-weight: 400;
@@ -39,14 +45,17 @@
   color: #7b8e98;
   margin: 0;
 }
+
 .auth__error {
-  margin: 0;
-  color: rgb(209, 34, 34);
+  margin: 0.5rem 0;
+  color: #d12222;
   font-size: 12px;
 }
+
 .auth__link {
   cursor: pointer;
 }
+
 .auth__link:hover {
   text-decoration: underline;
 }
