@@ -18,9 +18,9 @@ import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
 import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
-import { Form } from '../Form/Form';
 import { RegistrationForm } from './../Form/RegistrationForm';
 import { Modal } from '../Modal/Modal';
+import { Login } from '../Login/Login';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -30,7 +30,6 @@ export function App() {
   const [favorites, setFavorites] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [activeModal, setActiveModal] = useState(false);
-
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
@@ -116,12 +115,9 @@ export function App() {
       if (!liked) {
         setFavorites((prevState) => [...prevState, newCard]);
       } else
-        setFavorites((prevState) =>
-        {
-          const res = prevState.filter((card) => card._id !== newCard._id)
-          return res;
-        }
-        );
+        setFavorites((prevState) => {
+          return prevState.filter((card) => card._id !== newCard._id)
+        });
       setCards(newProducts);
     });
   }, [cards, currentUser?._id])
@@ -162,7 +158,6 @@ export function App() {
     cards,
     favorites,
     onSortData: sortedData,
-    // setCurrentSort
   };
 
   const userProvider = {
@@ -201,7 +196,7 @@ export function App() {
             </Header>
             
             <Modal  activeModal={activeModal} setActiveModal={setActiveModal}>
-              <RegistrationForm addContact={addContact} />
+              <Login />
             </Modal>
             <main className={`content container content__${
                 theme.light ? 'light' : 'dark'

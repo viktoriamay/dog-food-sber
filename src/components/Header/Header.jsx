@@ -24,7 +24,9 @@ export function Header({children, setActiveModal}) {
               )}
             </Link>
           </div>
-            <div style={{cursor: 'pointer', border: '2px solid black', padding: '5px 10px', borderRadius: '20px'}} onClick={() => setActiveModal(true)}>Вход</div>
+            <div style={{cursor: 'pointer', border: '2px solid black', padding: '5px 10px', borderRadius: '20px'}} onClick={() => setActiveModal(true)}>
+              Вход
+            </div>
         </div>
       </div>
     </header>
