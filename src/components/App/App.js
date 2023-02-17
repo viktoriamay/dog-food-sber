@@ -21,6 +21,8 @@ import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
 import { RegistrationForm } from './../Form/RegistrationForm';
 import { Modal } from '../Modal/Modal';
 import { Login } from '../Login/Login';
+import { Register } from './../Register/Register';
+import { ResetPassword } from '../ResetPass/ResetPass';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -29,7 +31,7 @@ export function App() {
   const [theme, setTheme] = useState(themes.light);
   const [favorites, setFavorites] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [activeModal, setActiveModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(true);
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
 
@@ -37,8 +39,8 @@ export function App() {
     // return true; //вернуть все карточки 
     return (
       !item.pictures.includes('maxi-opt') // фильтрация по картинкам
-      && !item.pictures.includes('bipbap') 
-      && !item.pictures.includes('pinimg') 
+      && !item.pictures.includes('bipbap')
+      && !item.pictures.includes('pinimg')
       && new Date(item.created_at) < new Date('2022-12-14T11:22:43.008Z') // фильтрация по дате создания (показывать те, которые были созданы до определенной даты) 
     )
   }
@@ -56,7 +58,7 @@ export function App() {
       .search(searchQuery)
       .then((res) => setCards(res.filter(e => checkCardLocal(e))))
       .catch((err) => console.log(err))
-      // .finally();
+    // .finally();
   };
 
   useEffect(() => {
@@ -124,36 +126,36 @@ export function App() {
 
   const sortedData = (currentSort) => { //currentSort === id
     switch (currentSort) {
-      case 'popular': 
-        setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)]); 
-      break;
+      case 'popular':
+        setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)]);
+        break;
 
-      case 'newest': 
-        setCards([...cards.sort((a, b) => new Date(b?.created_at) - new Date(a?.created_at))]); 
-      break;
+      case 'newest':
+        setCards([...cards.sort((a, b) => new Date(b?.created_at) - new Date(a?.created_at))]);
+        break;
 
-      case 'cheep': 
-        setCards([...cards.sort((a, b) => a?.price - b?.price)]); 
-      break;
+      case 'cheep':
+        setCards([...cards.sort((a, b) => a?.price - b?.price)]);
+        break;
 
-      case 'expensive': 
-        setCards([...cards.sort((a, b) => b?.price - a?.price)]); 
-      break;
+      case 'expensive':
+        setCards([...cards.sort((a, b) => b?.price - a?.price)]);
+        break;
 
-      case 'rating': 
-        setCards([...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length)]); 
-      break;
+      case 'rating':
+        setCards([...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length)]);
+        break;
 
-      case 'discount': 
-        setCards([...cards.sort((a, b) => b?.discount - a?.discount)]); 
-      break;
+      case 'discount':
+        setCards([...cards.sort((a, b) => b?.discount - a?.discount)]);
+        break;
 
       default:
         setCards([...cards.sort((a, b) => a.price - b.price)]);
-      break;
-      }
+        break;
     }
-     
+  }
+
   const valueProvider = {
     cards,
     favorites,
@@ -188,18 +190,14 @@ export function App() {
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
-        <CardContext.Provider value={ valueProvider }>
-          <UserContext.Provider value={userProvider }>
+        <CardContext.Provider value={valueProvider}>
+          <UserContext.Provider value={userProvider}>
             <Header setActiveModal={setActiveModal}>
-                <Logo className='logo logo_place_header' />
-                <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
+              <Logo className='logo logo_place_header' />
+              <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
-            
-            <Modal  activeModal={activeModal} setActiveModal={setActiveModal}>
-              <Login />
-            </Modal>
-            <main className={`content container content__${
-                theme.light ? 'light' : 'dark'
+
+            <main className={`content container content__${theme.light ? 'light' : 'dark'
               }`}>
               <SearchInfo searchText={searchQuery} searchCount={cards.length} />
               <Routes>
@@ -213,6 +211,21 @@ export function App() {
                 {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
 
                 <Route path='*' element={<NoMatchFound />}></Route>
+                <Route path='/login' element={
+                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                    <Login />
+                  </Modal>}>
+                </Route>
+                <Route path='/register' element={
+                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                    <Register />
+                  </Modal>}>
+                </Route>
+                <Route path='/reset-pass' element={
+                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                    <ResetPassword />
+                  </Modal>}>
+                </Route>
               </Routes>
               {/* пример вывода информации из формы
               {!!contacts.length && contacts.map((el) => (

@@ -11,6 +11,15 @@
   gap: 80px;
 }
 
+.login__btn {
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 5px 10px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: black;
+}
+
 @media (max-width: 700px) {
   .wrapper {
     flex-direction: column;

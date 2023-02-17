@@ -24,9 +24,9 @@ export function Header({children, setActiveModal}) {
               )}
             </Link>
           </div>
-            <div style={{cursor: 'pointer', border: '2px solid black', padding: '5px 10px', borderRadius: '20px'}} onClick={() => setActiveModal(true)}>
+            <Link className={s.login__btn} to={'/login'} onClick={() => setActiveModal(true)}>
               Вход
-            </div>
+            </Link>
         </div>
       </div>
     </header>

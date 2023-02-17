@@ -20,7 +20,7 @@
   caret-color: #ffe44d;
 }
 
-.auth__input_error {
+.auth__input_error, .auth__input_error:focus {
   border: 1px solid #d81616;
 }
 

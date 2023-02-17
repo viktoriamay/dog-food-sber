@@ -1,11 +1,11 @@
 import { BaseButton } from '../BaseButton/BaseButton';
 import { Form } from './../Form/Form';
-import './Login.css'
+import './../Login/Login.css'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
 
-export const Login = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
+export const Register = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
   const emailRegister = register('email', {
     required: {
@@ -30,12 +30,12 @@ export const Login = () => {
   });
 
   const sendData = (data) => {
-    console.log({data});
+    console.log({ data });
   };
 
   return (
     <>
-      <Form handleFormSubmit={handleSubmit(sendData)} title='Вход' >
+      <Form handleFormSubmit={handleSubmit(sendData)} title='Регистрация' >
         <div className='auth__controls'>
           <input
             {...emailRegister}
@@ -53,17 +53,17 @@ export const Login = () => {
             placeholder='Пароль'
           />
           {errors.password && (<p className='auth__error'>{errors?.password.message}</p>)}
-          </div>
-          <p className='auth__info' onClick={() => { }}>
-            Восстановить пароль
-          </p>
-          <div className='auth__actions'>
-            <BaseButton type="submit" color={'yellow'}>
-              Войти
-            </BaseButton>
-            <BaseButton type="button" color={'white'} onClick={() => {}}>
-              Регистрация
-            </BaseButton>
+        </div>
+        <p className='auth__info' onClick={() => { }} style={{textAlign: 'left', fontSize: '12px', lineHeight: '14px'}}>
+          Регистрируясь на сайте, вы соглашаетесь с нашими Правилами и Политикой конфиденциальности и соглашаетесь на информационную рассылку.
+        </p>
+        <div className='auth__actions'>
+          <BaseButton type="submit" color={'yellow'}>
+            Зарегистрироваться
+          </BaseButton>
+          <BaseButton type="button" color={'white'} onClick={() => { }}>
+            Войти
+          </BaseButton>
         </div>
       </Form>
     </>
