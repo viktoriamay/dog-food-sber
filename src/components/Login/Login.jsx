@@ -3,6 +3,7 @@ import { Form } from './../Form/Form';
 import './Login.css'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
@@ -33,6 +34,8 @@ export const Login = () => {
     console.log({data});
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <Form handleFormSubmit={handleSubmit(sendData)} title='Вход' >
@@ -54,14 +57,14 @@ export const Login = () => {
           />
           {errors.password && (<p className='auth__error'>{errors?.password.message}</p>)}
           </div>
-          <p className='auth__info' onClick={() => { }}>
+          <span className='auth__info' onClick={() => {navigate('/reset-pass')}} style={{cursor: 'pointer'}}>
             Восстановить пароль
-          </p>
+          </span>
           <div className='auth__actions'>
             <BaseButton type="submit" color={'yellow'}>
               Войти
             </BaseButton>
-            <BaseButton type="button" color={'white'} onClick={() => {}}>
+            <BaseButton type="button" color={'white'} onClick={() => {navigate('/register')}}>
               Регистрация
             </BaseButton>
         </div>

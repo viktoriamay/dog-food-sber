@@ -3,6 +3,7 @@ import { Form } from './../Form/Form';
 import './../Login/Login.css'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
@@ -33,6 +34,8 @@ export const Register = () => {
     console.log({ data });
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <Form handleFormSubmit={handleSubmit(sendData)} title='Регистрация' >
@@ -61,7 +64,7 @@ export const Register = () => {
           <BaseButton type="submit" color={'yellow'}>
             Зарегистрироваться
           </BaseButton>
-          <BaseButton type="button" color={'white'} onClick={() => { }}>
+          <BaseButton type="button" color={'white'} onClick={() => {navigate('/login')}}>
             Войти
           </BaseButton>
         </div>
