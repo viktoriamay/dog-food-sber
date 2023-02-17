@@ -29,7 +29,7 @@ export const Product = ({
   return (
     <>
       <div>
-        <button onClick={handleClickBack} className='btn'>
+        <button onClick={handleClickBack} className='btn btn__back'>
           Назад
         </button>
         <h1 className={s.productTitle}>{name}</h1>
@@ -56,7 +56,7 @@ export const Product = ({
               <span className={s.num}>0</span>
               <button className={s.plus}>+</button>
             </div>
-            <a href='/#' className={cn('btn', 'btn_type_primary', s.cart)}>
+            <a href='/#' className={cn('btn', 'btn_type_primary', 'btn__card', s.cart)}>
               В корзину
             </a>
           </div>
