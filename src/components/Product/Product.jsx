@@ -5,6 +5,7 @@ import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
 import { useNavigate } from 'react-router-dom';
+import { Rating } from '../Rating/Rating';
 
 export const Product = ({
   pictures,
@@ -35,6 +36,7 @@ export const Product = ({
         <h1 className={s.productTitle}>{name}</h1>
         <div>
           <span> Артикул : </span> <b>238907</b>
+          <Rating />
         </div>
       </div>
       <div className={s.product}>

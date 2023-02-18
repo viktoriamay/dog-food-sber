@@ -57,7 +57,7 @@ export const Login = () => {
           />
           {errors.password && (<p className='auth__error'>{errors?.password.message}</p>)}
           </div>
-          <span className='auth__info' onClick={() => {navigate('/reset-pass')}} style={{cursor: 'pointer'}}>
+          <span className='auth__info auth__link' onClick={() => {navigate('/reset-pass')}}>
             Восстановить пароль
           </span>
           <div className='auth__actions'>
