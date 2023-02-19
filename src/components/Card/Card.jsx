@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import './Card.css';
+import './Card.scss';
 import { ReactComponent as Save } from './save.svg';
 import { Link } from 'react-router-dom';
 import { UserContext } from './../../context/UserContext';
