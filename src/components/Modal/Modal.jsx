@@ -1,4 +1,4 @@
-import './Modal.css';
+import './Modal.scss';
 import cn from 'classnames';
 import { useState, useEffect } from 'react';
 
