@@ -1,5 +1,5 @@
 import React from "react";
-import './Footer.css'
+import './Footer.scss'
 import telegram from "./logo-telegram.svg"
 import instagram from "./logo-instagram.svg"
 import viber from "./logo-viber.svg"
