@@ -1,4 +1,4 @@
-import './Logo.css';
+import './Logo.scss';
 import logoSrc from './logo.svg'
 
 function Logo({className, href, ...props}) {

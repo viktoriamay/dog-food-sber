@@ -7,15 +7,15 @@ import { CardContext } from './../../context/CardContext';
 import { Link } from 'react-router-dom';
 import { ReactComponent as FavIcon } from './img/fav.svg';
 
-export function Header({children, setActiveModal}) {
+export function Header(props) {
   const { favorites } = useContext(CardContext);
   // const { toggleTheme } = useContext(ThemeContext);
-
+  // console.log(props); для понимания что приходит в пропсы
   return (
     <header className={cn(s.header, 'cover')}>
       <div className='container'>
         <div className={s.wrapper}>
-          {children}
+          {props.children}
           <div className={s.iconsMenu}>
             <Link className={s.favoritesLink} to={'/favorites'}>
               <FavIcon />
@@ -24,7 +24,7 @@ export function Header({children, setActiveModal}) {
               )}
             </Link>
           </div>
-            <Link className={s.login__btn} to={'/login'} onClick={() => setActiveModal(true)}>
+            <Link className={s.login__btn} to={'/login'} onClick={() => props.setActiveModal(true)}>
               Вход
             </Link>
         </div>
