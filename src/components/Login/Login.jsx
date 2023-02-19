@@ -1,6 +1,6 @@
 import { BaseButton } from '../BaseButton/BaseButton';
 import { Form } from './../Form/Form';
-import './Login.css'
+import './Login.scss'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
 import { useNavigate } from 'react-router-dom';
