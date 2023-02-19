@@ -12,13 +12,12 @@ import { CardContext } from '../../context/CardContext';
 import { isLiked } from './../../utils/utils';
 import { ThemeContext } from '../../context/ThemeContext';
 import { themes } from './../../context/ThemeContext';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ProductPage } from './../../pages/product/ProductPage';
 import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
 import { Favorites } from '../../pages/favorites/favorites';
 import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
-import { RegistrationForm } from './../Form/RegistrationForm';
 import { Modal } from '../Modal/Modal';
 import { Login } from '../Login/Login';
 import { Register } from './../Register/Register';
@@ -34,6 +33,7 @@ export function App() {
   const [activeModal, setActiveModal] = useState(true);
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
+  const navigate = useNavigate();
 
   const checkCardLocal = (item) => {
     // return true; //вернуть все карточки 
@@ -68,6 +68,7 @@ export function App() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleRequest();
+    navigate('/')
   };
 
   const handleInputChange = (inputValue) => {
@@ -99,11 +100,12 @@ export function App() {
 
   }, []);
 
+  /*  изменение пользователя
   function handleUpdateUser(userUpdateData) {
     api.setUserInfo(userUpdateData).then((newUser) => {
       setCurrentUser(newUser);
     });
-  }
+  } */
 
 
   const handleProductLike = useCallback((product) => {
@@ -208,6 +210,7 @@ export function App() {
                 ></Route>
                 <Route path='/faq' element={<FaqPage />}></Route>
                 <Route path='/favorites' element={<Favorites />}></Route>
+
                 {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
 
                 <Route path='*' element={<NoMatchFound />}></Route>

@@ -1,6 +1,7 @@
 import './Search.css';
 import { ReactComponent as SearchIcon } from './ic-search.svg';
 import { ReactComponent as CloseIcon } from './ic-close-input.svg';
+import { useNavigate } from 'react-router-dom';
 
 function Search({ onSubmit: propsOnSubmit, onInput }) {
   const handleInput = (e) => {
