@@ -1,4 +1,4 @@
-const onResponce = (res) => {
+const onResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
@@ -9,31 +9,42 @@ class Api {
   }
 
   getProductsList() {
-    return fetch(`${this._baseUrl}/products`, { headers: this._headers }).then(onResponce);
+    return fetch(`${this._baseUrl}/products`, { headers: this._headers }).then(onResponse);
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(onResponce);
+    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(onResponse);
   }
 
   getProductById(idProduct) {
-    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers }).then(onResponce);
+    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers }).then(onResponse);
   }
 
   deleteProductById(idProduct) {
-    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers, method: "DELETE" }).then(onResponce);
+    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers, method: "DELETE" }).then(onResponse);
   }  
 
   search(searchQuery) {
-    return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponce);
+    return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponse);
   }
 
   setUserInfo(dataUser) {
-    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponce);
+    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 
   changeLikeProduct(productId, isLike ) {
-    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT"}).then(onResponce);
+    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT"}).then(onResponse);
+  }
+
+  getUsersById(userId) {
+    return fetch(`${this._baseUrl}/v2/group-9/users/${userId}`, {
+      headers: this._headers,
+    }).then(onResponse);
+  }
+  getUsers() {
+    return fetch(`${this._baseUrl}/v2/group-9/users`, {
+      headers: this._headers,
+    }).then(onResponse);
   }
 }
 

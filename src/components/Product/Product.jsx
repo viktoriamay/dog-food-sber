@@ -1,11 +1,12 @@
 import cn from 'classnames';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './Product.module.css';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Rating } from '../Rating/Rating';
+import api from './../../utils/api';
 
 export const Product = ({
   pictures,
@@ -16,17 +17,53 @@ export const Product = ({
   likes = [],
   currentUser,
   description,
+  reviews,
 }) => {
 
   const discount_price = Math.round(price - (price * discount) / 100);
   const isLike = likes.some((id) => id === currentUser?._id);
   const desctiptionHTML = { __html: description };
-    
+
+  const [isClicked, setClicked] = useState(isLike);
+  const [users, setUsers] = useState([]);
+
   const navigate = useNavigate();
 
   const handleClickBack = () => {
     navigate(-1)
   }
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.search.includes('name=dear')) {
+      navigate('/');
+    }
+  }, [location.search]);
+
+  const onLike = (e) => {
+    onProductLike(e);
+    setClicked((state) => !state);
+  };
+
+  useEffect(() => {
+    api.getUsers().then((data) => setUsers(data))
+  }, [])
+
+  const getUser = (id) => {
+    if (!users.length) return '';
+
+    const user = users.find((el) => el._id === id);
+
+    return user?.name ?? user;
+  }
+
+  const options = {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }
+
   return (
     <>
       <div>
@@ -34,9 +71,12 @@ export const Product = ({
           Назад
         </button>
         <h1 className={s.productTitle}>{name}</h1>
-        <div>
-          <span> Артикул : </span> <b>238907</b>
-          <Rating />
+        <div className={s.rate__info}>
+          <span> Артикул: <b>238907</b> </span>
+          <Rating isEditable={true} rating={5} />
+          <span className={s.reviews__count}>
+            {reviews?.length} отзывов
+          </span>
         </div>
       </div>
       <div className={s.product}>
@@ -62,9 +102,9 @@ export const Product = ({
               В корзину
             </a>
           </div>
-          <button 
-            className={cn(s.favorite, { [s.favoriteActive]: isLike })}
-            onClick={onProductLike}
+          <button
+            className={cn(s.favorite, { [s.favoriteActive]: isClicked })}
+            onClick={(e) => onLike(e)}
           >
             <Save />
             <span>{isLike ? 'В избранном' : 'В избранное'}</span>
@@ -116,6 +156,26 @@ export const Product = ({
             <p>Следует учесть высокую калорийность продукта.</p>
           </div>
         </div>
+      </div>
+      <div className={s.reviews}>
+        <div className={s.reviews__control}>
+          <h2 className={s.title}>Отзывы</h2>
+          <button className='btn'>Написать отзыв</button>
+        </div>
+        {reviews?.map((e) => <div className={s.review} key={e._id}>
+          <div className={s.review__author}>
+            <div>
+
+            <span>{getUser(e.author)}</span>
+            <span className={s.review__date}>{(new Date(e.created_at)).toLocaleString('ru', options)}</span>
+            </div>
+            <Rating rating={e.rating} />
+          </div>
+          <div className={s.text}>
+            <span>«{e.text}»</span>
+          </div>
+
+        </div>)}
       </div>
     </>
   );

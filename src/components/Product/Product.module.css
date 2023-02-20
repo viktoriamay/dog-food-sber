@@ -188,6 +188,53 @@
   cursor: pointer;
 }
 
+.rate__info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.reviews__count {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration-line: underline;
+  color: #ffaa0d;
+  cursor: pointer;
+}
+
+.review__author {
+  display: flex;
+flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  color: #1A1A1A;
+margin-right: 1rem;
+}
+
+.reviews__control {
+  margin: 0 0 2rem 0;
+  
+}
+
+.text {
+  margin: 16px 0 20px 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1A1A1A;
+}
+
+.review__date {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #7b8e98;
+  margin-left: 0.5rem;
+}
 @media (max-width: 1000px) {
   .product {
     gap: 20px;

@@ -2,3 +2,7 @@
   fill: #ffaa0d;
   cursor: pointer;
 }
+
+.editable {
+  cursor: pointer;
+}
