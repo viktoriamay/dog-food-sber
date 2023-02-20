@@ -1,4 +1,4 @@
-import './Sort.css';
+import './Sort.scss';
 import { useContext, useState } from 'react';
 import { CardContext } from './../../context/CardContext';
 
@@ -21,8 +21,6 @@ export const Sort = () => {
     onSortData(id);
   }
 
-  
-  
   return (
     <div className='sort'>
       {tabs.map(({id, title}) => (
