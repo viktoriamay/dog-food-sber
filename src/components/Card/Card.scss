@@ -96,15 +96,15 @@
     padding: 0;
     display: flex;
 
-    svg > {
+    & svg > {
 
-      .svg__fill {
+      & .svg__fill {
         fill: #FFFFFF;
         stroke-width: 0.2px;
         stroke: #7b8e98;
       }
 
-      .svg__stroke {
+      & .svg__stroke {
         fill: #7b8e98;
         stroke-width: 0.2px;
         stroke: #7b8e98;
@@ -114,10 +114,10 @@
 
   &__favorite_is-active {
 
-    svg > {
+    & svg > {
       
-      .svg__stroke, 
-      .svg__fill {
+      & .svg__stroke, 
+      & .svg__fill {
         fill: #F44336;
         stroke: #F44336;
         stroke-width: 0.3px;
