@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import './SearchInfo.css';
+import './SearchInfo.scss';
 
 const SearchInfo = ({searchText, searchCount}) => {
   const location = useLocation();
