@@ -158,7 +158,7 @@ export function App() {
     }
   }
 
-  const valueProvider = {
+  const cardProvider = {
     cards,
     favorites,
     onSortData: sortedData,
@@ -192,7 +192,7 @@ export function App() {
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
-        <CardContext.Provider value={valueProvider}>
+        <CardContext.Provider value={cardProvider}>
           <UserContext.Provider value={userProvider}>
             <Header setActiveModal={setActiveModal}>
               <Logo className='logo logo_place_header' />

@@ -5,6 +5,8 @@ import { CardContext } from './../../context/CardContext';
 export const Sort = () => {
 
   const {onSortData} = useContext(CardContext);
+  const [sortedId, setSortedId] = useState('popular');
+
   const tabs = [
     {id: 'popular', title: 'Популярные'},
     {id: 'newest', title: 'Новинки'},
@@ -14,18 +16,17 @@ export const Sort = () => {
     {id: 'discount', title: 'По скидке'},
   ];
 
-  const [isActive, setIsActive] = useState(false);
-
-  const handleChange = (id) => {
-    // setCurrentSort(id);
+  const handleChange = (e, id) => {
+    e.preventDefault();
     onSortData(id);
+    setSortedId(id);
   }
 
   return (
     <div className='sort'>
-      {tabs.map(({id, title}) => (
-        <div key={id} className={isActive ? 'sort__link_selected' : 'sort__link'} onClick={() => (handleChange(id))}>
-          {title}
+      {tabs.map((tab) => (
+        <div key={tab.id} className={`sort__link ${tab.id === sortedId ? 'sort__link_selected' : ''}`} onClick={(e) => (handleChange(e, tab.id))}>
+          {tab.title}
         </div>)
       )}
     </div>
