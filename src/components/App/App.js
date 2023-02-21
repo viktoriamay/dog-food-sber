@@ -12,7 +12,7 @@ import { CardContext } from '../../context/CardContext';
 import { isLiked } from './../../utils/utils';
 import { ThemeContext } from '../../context/ThemeContext';
 import { themes } from './../../context/ThemeContext';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { ProductPage } from './../../pages/product/ProductPage';
 import { CatalogPage } from './../../pages/catalog/CatalogPage';
 import { FaqPage } from './../../pages/faq/FaqPage';
@@ -29,7 +29,6 @@ export function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [theme, setTheme] = useState(themes.light);
   const [favorites, setFavorites] = useState([]);
-  const [contacts, setContacts] = useState([]);
   const [activeModal, setActiveModal] = useState(true);
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
@@ -173,9 +172,10 @@ export function App() {
     theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark);
   };
 
-  const addContact = (contact) => {
-    setContacts([...contacts, contact]);
-  };
+  const location = useLocation();
+
+  const backgroundLocation = location.state?.backgroundLocation;
+  const initialPath = location.state?.initialPath;
 
   /* удаление товара по содержащейся в названии изображения фразы
   
@@ -202,7 +202,7 @@ export function App() {
             <main className={`content container content__${theme.light ? 'light' : 'dark'
               }`}>
               <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-              <Routes>
+              <Routes location={backgroundLocation && { ...backgroundLocation, path: initialPath || location }}>
                 <Route path='/' element={<CatalogPage onSortData={sortedData} />}></Route>
                 <Route
                   path='/product/:productId'
@@ -230,6 +230,26 @@ export function App() {
                   </Modal>}>
                 </Route>
               </Routes>
+
+              {backgroundLocation &&
+                <Routes>
+                  <Route path='/login' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <Login />
+                    </Modal>}>
+                  </Route>
+                  <Route path='/register' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <Register />
+                    </Modal>}>
+                  </Route>
+                  <Route path='/reset-pass' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <ResetPassword />
+                    </Modal>}>
+                  </Route>
+                </Routes>
+              }
               {/* пример вывода информации из формы
               {!!contacts.length && contacts.map((el) => (
     

@@ -4,11 +4,12 @@ import { useContext } from "react";
 import s from './Header.module.css';
 import { CardContext } from './../../context/CardContext';
 // import { ThemeContext } from "../../context/ThemeContext";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as FavIcon } from './img/fav.svg';
 
 export function Header(props) {
   const { favorites } = useContext(CardContext);
+  const location = useLocation();
   // const { toggleTheme } = useContext(ThemeContext);
   // console.log(props); для понимания что приходит в пропсы
   return (
@@ -24,7 +25,7 @@ export function Header(props) {
               )}
             </Link>
           </div>
-            <Link className={s.login__btn} to={'/login'} onClick={() => props.setActiveModal(true)}>
+            <Link className={s.login__btn} to={'/login'} onClick={() => props.setActiveModal(true)} state = {{backgroundLocation: location, initialPath: location.pathname}}>
               Вход
             </Link>
         </div>

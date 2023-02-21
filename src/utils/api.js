@@ -22,7 +22,7 @@ class Api {
 
   deleteProductById(idProduct) {
     return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers, method: "DELETE" }).then(onResponse);
-  }  
+  }
 
   search(searchQuery) {
     return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponse);
@@ -32,8 +32,8 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 
-  changeLikeProduct(productId, isLike ) {
-    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT"}).then(onResponse);
+  changeLikeProduct(productId, isLike) {
+    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT" }).then(onResponse);
   }
 
   getUsersById(userId) {
@@ -41,6 +41,7 @@ class Api {
       headers: this._headers,
     }).then(onResponse);
   }
+
   getUsers() {
     return fetch(`${this._baseUrl}/v2/group-9/users`, {
       headers: this._headers,

@@ -3,10 +3,12 @@ import { Form } from './../Form/Form';
 import './Login.scss'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { authApi } from './../../utils/authApi';
+import api from './../../utils/api';
 
 export const Login = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm({mode: 'onBlur'});
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
   const emailRegister = register('email', {
     required: {
@@ -30,11 +32,22 @@ export const Login = () => {
     }
   });
 
-  const sendData = (data) => {
-    console.log({data});
+  console.log(api.getUserInfo());
+
+  const sendData = async (data) => {
+    try {
+      const { token } = await authApi.login(data);
+      // {token} === result.token
+      localStorage.setItem('token', token);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialPath = location.state?.initialPath;
 
   return (
     <>
@@ -56,17 +69,17 @@ export const Login = () => {
             placeholder='Пароль'
           />
           {errors.password && (<p className='auth__error'>{errors?.password.message}</p>)}
-          </div>
-          <span className='auth__info auth__link' onClick={() => {navigate('/reset-pass')}}>
-            Восстановить пароль
-          </span>
-          <div className='auth__actions'>
-            <BaseButton type="submit" color={'yellow'}>
-              Войти
-            </BaseButton>
-            <BaseButton type="button" color={'white'} onClick={() => {navigate('/register')}}>
-              Регистрация
-            </BaseButton>
+        </div>
+        <span className='auth__info auth__link' onClick={() => { navigate('/reset-pass') }}>
+          Восстановить пароль
+        </span>
+        <div className='auth__actions'>
+          <BaseButton type="submit" color={'yellow'}>
+            Войти
+          </BaseButton>
+          <BaseButton type="button" color={'white'} onClick={() => navigate('/register', { replace: true, state: { backgroundLocation: location, initialPath } })}>
+            Регистрация
+          </BaseButton>
         </div>
       </Form>
     </>
