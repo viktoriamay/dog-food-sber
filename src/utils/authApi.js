@@ -21,3 +21,13 @@ const config = {
 }
 
 export const authApi = new Api(config);
+
+// апи в виде функции, а не класса
+
+export const register = (data) => {
+  return fetch(`${config.baseUrl}/signup`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(onResponse);
+}

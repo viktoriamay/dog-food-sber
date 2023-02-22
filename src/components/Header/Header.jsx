@@ -17,6 +17,7 @@ export function Header(props) {
       <div className='container'>
         <div className={s.wrapper}>
           {props.children}
+          
           <div className={s.iconsMenu}>
             <Link className={s.favoritesLink} to={'/favorites'}>
               <FavIcon />
@@ -25,9 +26,11 @@ export function Header(props) {
               )}
             </Link>
           </div>
+          {/* {!props.isAuthentificated &&  скрывать эту кнопку при условии что мы вошли в аккаунт */}
             <Link className={s.login__btn} to={'/login'} onClick={() => props.setActiveModal(true)} state = {{backgroundLocation: location, initialPath: location.pathname}}>
               Вход
             </Link>
+            {/* } */}
         </div>
       </div>
     </header>

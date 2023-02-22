@@ -32,8 +32,6 @@ export const Login = () => {
     }
   });
 
-  console.log(api.getUserInfo());
-
   const sendData = async (data) => {
     try {
       const { token } = await authApi.login(data);

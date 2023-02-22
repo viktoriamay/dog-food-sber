@@ -30,6 +30,8 @@ export function App() {
   const [theme, setTheme] = useState(themes.light);
   const [favorites, setFavorites] = useState([]);
   const [activeModal, setActiveModal] = useState(true);
+  const [isAuthentificated, setAuthentificated] = useState(false);
+
 
   const debounceSearchQuery = useDebounce(searchQuery, 1000);
   const navigate = useNavigate();
@@ -177,6 +179,11 @@ export function App() {
   const backgroundLocation = location.state?.backgroundLocation;
   const initialPath = location.state?.initialPath;
 
+  useEffect(() => {
+    const haveToken = localStorage.getItem('token');
+    setAuthentificated(!!haveToken);
+  }, [activeModal]);
+
   /* удаление товара по содержащейся в названии изображения фразы
   
   useEffect(() => {
@@ -194,44 +201,74 @@ export function App() {
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
         <CardContext.Provider value={cardProvider}>
           <UserContext.Provider value={userProvider}>
-            <Header setActiveModal={setActiveModal}>
+            <Header setActiveModal={setActiveModal} isAuthentificated={isAuthentificated}>
               <Logo className='logo logo_place_header' />
               <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
+            {isAuthentificated ?
+              <main className={`content container content__${theme.light ? 'light' : 'dark'
+                }`}>
+                <SearchInfo searchText={searchQuery} searchCount={cards.length} />
+                <Routes location={backgroundLocation && { ...backgroundLocation, path: initialPath || location }}>
+                  <Route path='/' element={<CatalogPage onSortData={sortedData} />}></Route>
+                  <Route
+                    path='/product/:productId'
+                    element={<ProductPage />}
+                  ></Route>
+                  <Route path='/faq' element={<FaqPage />}></Route>
+                  <Route path='/favorites' element={<Favorites />}></Route>
 
-            <main className={`content container content__${theme.light ? 'light' : 'dark'
-              }`}>
-              <SearchInfo searchText={searchQuery} searchCount={cards.length} />
-              <Routes location={backgroundLocation && { ...backgroundLocation, path: initialPath || location }}>
-                <Route path='/' element={<CatalogPage onSortData={sortedData} />}></Route>
-                <Route
-                  path='/product/:productId'
-                  element={<ProductPage />}
-                ></Route>
-                <Route path='/faq' element={<FaqPage />}></Route>
-                <Route path='/favorites' element={<Favorites />}></Route>
+                  {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
 
-                {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
+                  <Route path='*' element={<NoMatchFound />}></Route>
+                  <Route path='/login' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <Login />
+                    </Modal>}>
+                  </Route>
+                  <Route path='/register' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <Register />
+                    </Modal>}>
+                  </Route>
+                  <Route path='/reset-pass' element={
+                    <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                      <ResetPassword />
+                    </Modal>}>
+                  </Route>
+                </Routes>
 
-                <Route path='*' element={<NoMatchFound />}></Route>
-                <Route path='/login' element={
-                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
-                    <Login />
-                  </Modal>}>
-                </Route>
-                <Route path='/register' element={
-                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
-                    <Register />
-                  </Modal>}>
-                </Route>
-                <Route path='/reset-pass' element={
-                  <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
-                    <ResetPassword />
-                  </Modal>}>
-                </Route>
-              </Routes>
-
-              {backgroundLocation &&
+                {backgroundLocation &&
+                  <Routes>
+                    <Route path='/login' element={
+                      <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                        <Login />
+                      </Modal>}>
+                    </Route>
+                    <Route path='/register' element={
+                      <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                        <Register />
+                      </Modal>}>
+                    </Route>
+                    <Route path='/reset-pass' element={
+                      <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+                        <ResetPassword />
+                      </Modal>}>
+                    </Route>
+                  </Routes>
+                }
+                {/* пример вывода информации из формы
+              {!!contacts.length && contacts.map((el) => (
+    
+                <div key={Math.random() * 100}>
+                
+                  <p>{el.name}</p>
+                  <p>{el.lastName}</p>
+                  <p>{el.phoneNumber}</p>
+                  <p>{el.checked}</p>
+                </div>))} */}
+              </main>
+              : <div className='container not-auth'>Авторизуйтесь, пожалуйста
                 <Routes>
                   <Route path='/login' element={
                     <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
@@ -249,18 +286,7 @@ export function App() {
                     </Modal>}>
                   </Route>
                 </Routes>
-              }
-              {/* пример вывода информации из формы
-              {!!contacts.length && contacts.map((el) => (
-    
-                <div key={Math.random() * 100}>
-                
-                  <p>{el.name}</p>
-                  <p>{el.lastName}</p>
-                  <p>{el.phoneNumber}</p>
-                  <p>{el.checked}</p>
-                </div>))} */}
-            </main>
+              </div>}
             <Footer />
           </UserContext.Provider>
         </CardContext.Provider>
