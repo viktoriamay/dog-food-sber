@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { Product } from '../../components/Product/Product';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
 import { CardContext } from './../../context/CardContext';
@@ -45,6 +45,7 @@ export const ProductPage = () => {
   };
   
   const {productId} = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -52,7 +53,7 @@ export const ProductPage = () => {
     api
       .getProductById(productId)
       .then((productData) => setProduct(productData))
-      .catch((err) => console.log('err', err))
+      .catch((err) => {console.log('err', err); navigate('/')})
       .finally(() => setIsLoading(false));
   }, [productId, favorites]);
 

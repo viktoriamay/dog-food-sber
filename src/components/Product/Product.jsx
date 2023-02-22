@@ -7,6 +7,10 @@ import quality from './img/quality.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Rating } from '../Rating/Rating';
 import api from './../../utils/api';
+import { BaseButton } from './../BaseButton/BaseButton';
+import { Form } from '../Form/Form';
+
+import { useForm } from 'react-hook-form';
 
 export const Product = ({
   pictures,
@@ -32,6 +36,8 @@ export const Product = ({
   const handleClickBack = () => {
     navigate(-1)
   }
+
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
   const location = useLocation();
 
@@ -62,6 +68,10 @@ export const Product = ({
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+  }
+
+  const sendReview = (data) => {
+    console.log(data);
   }
 
   return (
@@ -161,13 +171,30 @@ export const Product = ({
         <div className={s.reviews__control}>
           <h2 className={s.title}>Отзывы</h2>
           <button className='btn'>Написать отзыв</button>
+          <Form className={s.form}  handleFormSubmit={handleSubmit(sendReview)} title='Написать отзыв' >
+            <div className={s.form__rating} >
+              <textarea
+                {...register}
+                className={`${s.auth__textarea} ${errors?.email ? 'auth__textarea_error' : ''}`}
+                type='text'
+                name='textarea'
+                placeholder='Оставьте ваш отзыв'
+              />
+              {errors.textarea && (<p className='auth__error'>{errors?.textarea.message}</p>)}
+            </div>
+            <div className='auth__actions'>
+              <BaseButton type="submit" color={'yellow'}>
+                Оставить отзыв
+              </BaseButton>
+            </div>
+          </Form>
         </div>
         {reviews?.map((e) => <div className={s.review} key={e._id}>
           <div className={s.review__author}>
             <div>
 
-            <span>{getUser(e.author)}</span>
-            <span className={s.review__date}>{(new Date(e.created_at)).toLocaleString('ru', options)}</span>
+              <span>{getUser(e.author)}</span>
+              <span className={s.review__date}>{(new Date(e.created_at)).toLocaleString('ru', options)}</span>
             </div>
             <Rating rating={e.rating} />
           </div>

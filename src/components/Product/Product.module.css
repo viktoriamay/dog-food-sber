@@ -236,6 +236,23 @@
   margin-left: 0.5rem;
 }
 
+.auth__textarea {
+  padding: 0.9rem 1rem;
+    width: 100%;
+    height: 5rem;
+    background: #ffffff;
+    border: 1px solid #cfd8dc;
+    border-radius: 0.75rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  padding: 2rem 0;
+  gap: 1.5rem;
+}
+
 @media (max-width: 1000px) {
   .product {
     gap: 20px;
