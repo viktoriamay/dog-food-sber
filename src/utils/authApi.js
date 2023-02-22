@@ -11,6 +11,10 @@ class Api {
   login(dataUser) {
     return fetch(`${this._baseUrl}/signin`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
   }
+
+  register(dataUser) {
+    return fetch(`${this._baseUrl}/signup`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
+  }
 }
 
 const config = {

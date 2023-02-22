@@ -4,6 +4,7 @@ import './../Login/Login.scss'
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEXP, VALIDATE_CONFIG, PASS_REGEXP } from './../../constants/constants';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from './../../utils/authApi';
 
 export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
@@ -30,8 +31,9 @@ export const Register = () => {
     }
   });
 
-  const sendData = (data) => {
+  const sendData = async (data) => {
     console.log({ data });
+    await authApi.register({...data, group: 'group-9'})
   };
 
   const navigate = useNavigate();
