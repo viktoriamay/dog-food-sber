@@ -12,8 +12,19 @@ class Api {
     return fetch(`${this._baseUrl}/signin`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 
-  register(dataUser) {
+  registration(dataUser) {
     return fetch(`${this._baseUrl}/signup`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
+  }
+
+  resetPass(dataUser) {
+    return fetch(`${this._baseUrl}/password-reset`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(dataUser),
+    }).then(onResponse);}
+
+  resetPassToken(dataUser, userId, token) {
+    return fetch(`${this._baseUrl}/password-reset/${userId}/${token}`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 }
 
@@ -28,8 +39,16 @@ export const authApi = new Api(config);
 
 // апи в виде функции, а не класса
 
-export const register = (data) => {
+export const registration = (data) => {
   return fetch(`${config.baseUrl}/signup`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(onResponse);
+}
+
+export const resetPass = (data) => {
+  return fetch(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(data)

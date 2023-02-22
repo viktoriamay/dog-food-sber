@@ -33,7 +33,7 @@ export const Register = () => {
 
   const sendData = async (data) => {
     console.log({ data });
-    await authApi.register({...data, group: 'group-9'})
+    await authApi.registration({...data, group: 'group-9'})
   };
 
   const navigate = useNavigate();
