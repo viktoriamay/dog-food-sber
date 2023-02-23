@@ -11,6 +11,7 @@ import { BaseButton } from './../BaseButton/BaseButton';
 import { Form } from '../Form/Form';
 
 import { useForm } from 'react-hook-form';
+import { VALIDATE_CONFIG } from './../../constants/constants';
 
 export const Product = ({
   pictures,
@@ -73,6 +74,21 @@ export const Product = ({
   const sendReview = (data) => {
     console.log(data);
   }
+
+  const reviewRegister = register('textarea', {
+    required: {
+      value: true,
+      message: VALIDATE_CONFIG.requiredMessage
+    },
+    minLength: {
+      value: 5,
+      message: 'Минимум 5 символов'
+    }
+    /* pattern: {
+      value: EMAIL_REGEXP,
+      message: VALIDATE_CONFIG.email
+    } */
+  });
 
   return (
     <>
@@ -171,10 +187,14 @@ export const Product = ({
         <div className={s.reviews__control}>
           <h2 className={s.title}>Отзывы</h2>
           <button className='btn'>Написать отзыв</button>
-          <Form className={s.form}  handleFormSubmit={handleSubmit(sendReview)} title='Написать отзыв' >
+          <Form className={s.form}  handleFormSubmit={handleSubmit(sendReview)} title='Оставить отзыв' >
+            <div className={s.form__review__rating}>
+              Ваша оценка <Rating isEditable={true} rating={5} />
+
+            </div>
             <div className={s.form__rating} >
-              <textarea
-                {...register}
+              <input
+                {...reviewRegister}
                 className={`${s.auth__textarea} ${errors?.email ? 'auth__textarea_error' : ''}`}
                 type='text'
                 name='textarea'
@@ -184,7 +204,7 @@ export const Product = ({
             </div>
             <div className='auth__actions'>
               <BaseButton type="submit" color={'yellow'}>
-                Оставить отзыв
+                Отправить
               </BaseButton>
             </div>
           </Form>

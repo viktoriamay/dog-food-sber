@@ -253,6 +253,11 @@
   gap: 1.5rem;
 }
 
+.form__review__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 @media (max-width: 1000px) {
   .product {
     gap: 20px;
