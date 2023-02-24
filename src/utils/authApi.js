@@ -17,14 +17,14 @@ class Api {
   }
 
   resetPass(dataUser) {
-    return fetch(`${this._baseUrl}/password-reset`, {
+    return fetch(`${this._baseUrl}/forgot-password`, {
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify(dataUser),
     }).then(onResponse);}
 
   resetPassToken(dataUser, userId, token) {
-    return fetch(`${this._baseUrl}/password-reset/${userId}/${token}`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
+    return fetch(`${this._baseUrl}/password-reset/${userId}/${token}`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 }
 
