@@ -1,4 +1,4 @@
-import s from './Button.module.css';
+import s from './Button.module.scss';
 import cn from 'classnames';
 
 function Button({type, children}) {
