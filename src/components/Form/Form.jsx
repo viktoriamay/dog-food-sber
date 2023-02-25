@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import api from '../../utils/api';
-import s from './Form.module.css';
+import s from './Form.module.scss';
 
 export const Form = ({ title, handleFormSubmit, children, className }) => { 
   return ( /* динамически прокидываем любой новый класс, чтобы можно было переписать стили */
