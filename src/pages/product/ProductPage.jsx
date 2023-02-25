@@ -57,13 +57,17 @@ export const ProductPage = () => {
       .finally(() => setIsLoading(false));
   }, [productId, favorites]);
 
+  const onSendReview = (data) => {
+    console.log({data});
+  }
+
   return (
       <main className='content container'>
         <div className='content__cards'>
           {isLoading ? (
             <Spinner />
           ) : (
-            <Product {...product} currentUser={currentUser} onProductLike={onProductLike} />
+            <Product {...product} currentUser={currentUser} onProductLike={onProductLike} setProduct={setProduct} onSendReview={onSendReview} />
           )}
         </div>
       </main>

@@ -23,6 +23,7 @@ export const Product = ({
   currentUser,
   description,
   reviews,
+  onSendReview,
 }) => {
 
   const discount_price = Math.round(price - (price * discount) / 100);
@@ -59,9 +60,7 @@ export const Product = ({
 
   const getUser = (id) => {
     if (!users.length) return '';
-
     const user = users.find((el) => el._id === id);
-
     return user?.name ?? user;
   }
 
@@ -71,9 +70,7 @@ export const Product = ({
     year: 'numeric',
   }
 
-  const sendReview = (data) => {
-    console.log(data);
-  }
+ 
 
   const reviewRegister = register('textarea', {
     required: {
@@ -187,7 +184,7 @@ export const Product = ({
         <div className={s.reviews__control}>
           <h2 className={s.title}>Отзывы</h2>
           <button className='btn'>Написать отзыв</button>
-          <Form className={s.form}  handleFormSubmit={handleSubmit(sendReview)} title='Оставить отзыв' >
+          <Form className={s.form}  handleFormSubmit={handleSubmit(onSendReview)} title='Оставить отзыв' >
             <div className={s.form__review__rating}>
               Ваша оценка <Rating isEditable={true} rating={5} />
 
