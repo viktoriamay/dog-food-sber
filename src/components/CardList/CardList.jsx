@@ -1,4 +1,4 @@
-import './CardList.css';
+import './CardList.scss';
 import Card from '../Card/Card';
 
 export function CardList({onProductLike, cards = []}) {
