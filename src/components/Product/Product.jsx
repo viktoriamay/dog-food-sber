@@ -26,6 +26,7 @@ export const Product = ({
   reviews,
   onSendReview,
   deleteReview,
+  stock
 }) => {
   
   const discount_price = Math.round(price - (price * discount) / 100);
@@ -36,7 +37,7 @@ export const Product = ({
   const [users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [rating, setRating] = useState(5);
-
+  const [counterCart, setCounterCart] = useState(0);
 
   const navigate = useNavigate();
 
@@ -97,6 +98,15 @@ export const Product = ({
     setShowForm(false);
   };
 
+  const handleCart = () => {
+    const goods = localStorage.getItem('goods');
+    if (!goods) {
+      localStorage.setItem('goods', JSON.stringify([{name, counterCart}]));
+    } else {
+      localStorage.setItem('goods', JSON.stringify([...JSON.parse(goods), {name, counterCart}]));
+    }
+  };
+
   return (
     <>
       <div>
@@ -127,13 +137,13 @@ export const Product = ({
           )}
           <div className={s.btnWrap}>
             <div className={s.left}>
-              <button className={s.minus}>-</button>
-              <span className={s.num}>0</span>
-              <button className={s.plus}>+</button>
+              <button className={s.minus} onClick={(() => counterCart > 0 && setCounterCart(counterCart - 1))}>-</button>
+              <span className={s.num}>{counterCart}</span>
+              <button className={s.plus} onClick={(() => counterCart < stock && setCounterCart(counterCart + 1))} >+</button>
             </div>
-            <a href='/#' className={cn('btn', 'btn_type_primary', 'btn__card', s.cart)}>
+            <button className={cn('btn', 'btn_type_primary', 'btn__card', s.cart)} onClick={handleCart}>
               В корзину
-            </a>
+            </button>
           </div>
           <button
             className={cn(s.favorite, { [s.favoriteActive]: isClicked })}
