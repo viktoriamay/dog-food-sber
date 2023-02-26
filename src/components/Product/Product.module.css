@@ -229,11 +229,11 @@
 }
 
 .review__date {
+  display: flex;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   color: #7b8e98;
-  margin-left: 0.5rem;
 }
 
 .auth__textarea {
@@ -258,6 +258,24 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.review__info {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.basket {
+  display: flex;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s ease;
+}
+
+.basket:hover, .basket:focus {
+  opacity: 1;
+}
+
 @media (max-width: 1000px) {
   .product {
     gap: 20px;

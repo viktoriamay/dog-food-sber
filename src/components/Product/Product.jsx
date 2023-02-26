@@ -4,6 +4,7 @@ import s from './Product.module.css';
 import { ReactComponent as Save } from './img/save.svg';
 import truck from './img/truck.svg';
 import quality from './img/quality.svg';
+import { ReactComponent as Basket } from './img/basket.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Rating } from '../Rating/Rating';
 import api from './../../utils/api';
@@ -24,6 +25,7 @@ export const Product = ({
   description,
   reviews,
   onSendReview,
+  deleteReview,
 }) => {
   
   const discount_price = Math.round(price - (price * discount) / 100);
@@ -216,16 +218,18 @@ export const Product = ({
         </div>
         {reviews?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((e) => <div className={s.review} key={e._id}>
           <div className={s.review__author}>
-            <div>
+            <div className={s.review__info}>
               <span>{getUser(e.author)}</span>
               <span className={s.review__date}>{(new Date(e.created_at)).toLocaleString('ru', options)}</span>
+              {e.author === currentUser._id && <span className={s.basket} onClick={() => deleteReview(e._id)}>
+                <Basket />
+              </span>}
             </div>
             <Rating rating={e.rating} />
           </div>
           <div className={s.text}>
             <span>«{e.text}»</span>
           </div>
-
         </div>)}
       </div>
     </>

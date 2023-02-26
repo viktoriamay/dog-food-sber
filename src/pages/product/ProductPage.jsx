@@ -68,13 +68,22 @@ export const ProductPage = () => {
     // setIsLoading(false);
   }
 
+  const deleteReview = async (id) => {
+    try {
+      const result = await api.deleteReview(product._id, id);
+      setProduct({...result});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
       <main className='content container'>
         <div className='content__cards'>
           {isLoading ? (
             <Spinner />
           ) : (
-            <Product {...product} currentUser={currentUser} onProductLike={onProductLike} setProduct={setProduct} onSendReview={onSendReview} />
+            <Product {...product} currentUser={currentUser} onProductLike={onProductLike} setProduct={setProduct} onSendReview={onSendReview} deleteReview={deleteReview} />
           )}
         </div>
       </main>
