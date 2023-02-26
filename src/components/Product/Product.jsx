@@ -25,13 +25,16 @@ export const Product = ({
   reviews,
   onSendReview,
 }) => {
-
+  
   const discount_price = Math.round(price - (price * discount) / 100);
   const isLike = likes.some((id) => id === currentUser?._id);
   const desctiptionHTML = { __html: description };
-
+  
   const [isClicked, setClicked] = useState(isLike);
   const [users, setUsers] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [rating, setRating] = useState(5);
+
 
   const navigate = useNavigate();
 
@@ -72,7 +75,7 @@ export const Product = ({
 
  
 
-  const reviewRegister = register('textarea', {
+  const reviewRegister = register('text', {
     required: {
       value: true,
       message: VALIDATE_CONFIG.requiredMessage
@@ -87,6 +90,11 @@ export const Product = ({
     } */
   });
 
+  const sendReview = (data) => {
+    onSendReview({...data, rating});
+    setShowForm(false);
+  };
+
   return (
     <>
       <div>
@@ -96,7 +104,7 @@ export const Product = ({
         <h1 className={s.productTitle}>{name}</h1>
         <div className={s.rate__info}>
           <span> Артикул: <b>238907</b> </span>
-          <Rating isEditable={true} rating={5} />
+          <Rating isEditable={true} rating={rating} setRating={setRating} />
           <span className={s.reviews__count}>
             {reviews?.length} отзывов
           </span>
@@ -183,18 +191,18 @@ export const Product = ({
       <div className={s.reviews}>
         <div className={s.reviews__control}>
           <h2 className={s.title}>Отзывы</h2>
-          <button className='btn'>Написать отзыв</button>
-          <Form className={s.form}  handleFormSubmit={handleSubmit(onSendReview)} title='Оставить отзыв' >
+          {!showForm ? <button onClick={() => setShowForm(true)} className='btn'>Написать отзыв</button> :
+          <Form className={s.form}  handleFormSubmit={handleSubmit(sendReview)} title='Оставить отзыв' >
             <div className={s.form__review__rating}>
-              Ваша оценка <Rating isEditable={true} rating={5} />
+              Ваша оценка{' '} <Rating isEditable={true} rating={rating} setRating={setRating} />
 
             </div>
             <div className={s.form__rating} >
-              <input
+              <textarea
                 {...reviewRegister}
                 className={`${s.auth__textarea} ${errors?.email ? 'auth__textarea_error' : ''}`}
                 type='text'
-                name='textarea'
+                name='text'
                 placeholder='Оставьте ваш отзыв'
               />
               {errors.textarea && (<p className='auth__error'>{errors?.textarea.message}</p>)}
@@ -204,12 +212,11 @@ export const Product = ({
                 Отправить
               </BaseButton>
             </div>
-          </Form>
+          </Form>}
         </div>
-        {reviews?.map((e) => <div className={s.review} key={e._id}>
+        {reviews?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((e) => <div className={s.review} key={e._id}>
           <div className={s.review__author}>
             <div>
-
               <span>{getUser(e.author)}</span>
               <span className={s.review__date}>{(new Date(e.created_at)).toLocaleString('ru', options)}</span>
             </div>

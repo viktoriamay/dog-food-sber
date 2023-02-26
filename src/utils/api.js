@@ -47,6 +47,10 @@ class Api {
       headers: this._headers,
     }).then(onResponse);
   }
+
+  addReview(productId, body) {
+    return fetch(`${this._baseUrl}/products/review/${productId}`, { headers: this._headers, method: "POST", body: JSON.stringify(body) }).then(onResponse);
+  }
 }
 
 const config = {

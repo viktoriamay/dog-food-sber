@@ -57,8 +57,15 @@ export const ProductPage = () => {
       .finally(() => setIsLoading(false));
   }, [productId, favorites]);
 
-  const onSendReview = (data) => {
-    console.log({data});
+  const onSendReview = async (data) => {
+    // setIsLoading(true);
+    try {
+      const result = await api.addReview(product._id, data);
+      setProduct({...result});
+    } catch (error) {
+      console.log(error);
+    }
+    // setIsLoading(false);
   }
 
   return (
