@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
 import { CardContext } from './../../context/CardContext';
+import { openNotification } from './../../components/Notifications/Notifications';
 
 export const ProductPage = () => {
   const [cards, setCards] = useState([]);
@@ -62,8 +63,9 @@ export const ProductPage = () => {
     try {
       const result = await api.addReview(product._id, data);
       setProduct({...result});
+      openNotification('success', 'Успешно', 'Ваш отзыв успешно отправлен');
     } catch (error) {
-      console.log(error);
+      openNotification('error', 'Ошибка', 'Не получилось отправить отзыв');
     }
     // setIsLoading(false);
   }
@@ -72,8 +74,9 @@ export const ProductPage = () => {
     try {
       const result = await api.deleteReview(product._id, id);
       setProduct({...result});
+      openNotification('success', 'Успешно', 'Ваш отзыв успешно удален');
     } catch (error) {
-      console.log(error);
+      openNotification('error', 'Ошибка', 'Не получилось удалить отзыв');
     }
   };
 
