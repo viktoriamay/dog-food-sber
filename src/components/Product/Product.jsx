@@ -38,6 +38,7 @@ export const Product = ({
   const [showForm, setShowForm] = useState(false);
   const [rating, setRating] = useState(5);
   const [counterCart, setCounterCart] = useState(0);
+  const [reviewsProduct, setReviewsProduct] = useState(reviews?.slice(0, 2));
 
   const navigate = useNavigate();
 
@@ -76,8 +77,6 @@ export const Product = ({
     year: 'numeric',
   }
 
- 
-
   const reviewRegister = register('text', {
     required: {
       value: true,
@@ -107,6 +106,18 @@ export const Product = ({
     }
   };
 
+  const showMore = () => {
+    setReviewsProduct((state) => {
+      return [...reviews?.slice(0, state.length + 2)]
+    })
+  };
+
+  const hideReviews = () => {
+    setReviewsProduct(() => {
+      return [...reviews?.slice(0, 2)]
+    })
+  };
+
   return (
     <>
       <div>
@@ -118,7 +129,7 @@ export const Product = ({
           <span> Артикул: <b>238907</b> </span>
           <Rating isEditable={true} rating={rating} setRating={setRating} />
           <span className={s.reviews__count}>
-            {reviews?.length} отзывов
+            {reviewsProduct?.length} отзывов
           </span>
         </div>
       </div>
@@ -225,8 +236,12 @@ export const Product = ({
               </BaseButton>
             </div>
           </Form>}
+          <div className={s.reviews__hide_more}>
+            <p onClick={showMore} className={s.review__more}>Ещё отзывы</p>
+            <p onClick={hideReviews} className={s.review__more}>Свернуть отзывы</p>
+          </div>
         </div>
-        {reviews?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((e) => <div className={s.review} key={e._id}>
+        {reviewsProduct?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((e) => <div className={s.review} key={e._id}>
           <div className={s.review__author}>
             <div className={s.review__info}>
               <span>{getUser(e.author)}</span>

@@ -265,6 +265,21 @@
   gap: 0.5rem;
 }
 
+.review__more {
+  display: inline-block;
+  cursor: pointer; 
+}
+
+.reviews__hide_more {
+  display: flex;
+  gap: 1rem;
+}
+
+.review__more:hover {
+  text-decoration: underline;
+
+}
+
 .basket {
   display: flex;
   cursor: pointer;
