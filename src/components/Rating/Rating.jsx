@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useState, useCallback, useEffect } from 'react';
 import {ReactComponent as Star} from './star.svg';
-import s from './Rating.module.css'
+import s from './Rating.module.scss'
 
 export const Rating = ({rating, isEditable = false, setRating}) => {
   const [ratingArr, setRatingArr] = useState(new Array(5).fill(<></>));
