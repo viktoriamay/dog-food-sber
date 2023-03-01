@@ -241,7 +241,7 @@ export function App() {
                   <Route
                     path="/favorites"
                     element={
-                      <PrivateRoute loggedIn={false}>
+                      <PrivateRoute loggedIn={isAuthentificated}>
                         <Favorites />
                       </PrivateRoute>
                     }></Route>
