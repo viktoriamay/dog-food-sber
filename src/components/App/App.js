@@ -1,40 +1,41 @@
-import './App.scss'
-import React, { useState, useEffect, useCallback } from 'react'
-import { Header } from '../Header/Header'
-import { Footer } from '../Footer/Footer'
-import Search from '../Search/Search'
-import SearchInfo from '../SearchInfo/SearchInfo'
-import api from '../../utils/api'
-import Logo from '../Logo/Logo'
-import useDebounce from './../../hooks/useDebounce'
-import { UserContext } from './../../context/UserContext'
-import { CardContext } from '../../context/CardContext'
-import { isLiked } from './../../utils/utils'
-import { ThemeContext } from '../../context/ThemeContext'
-import { themes } from './../../context/ThemeContext'
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
-import { ProductPage } from './../../pages/product/ProductPage'
-import { CatalogPage } from './../../pages/catalog/CatalogPage'
-import { FaqPage } from './../../pages/faq/FaqPage'
-import { Favorites } from '../../pages/favorites/favorites'
-import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound'
-import { Modal } from '../Modal/Modal'
-import { Login } from '../Login/Login'
-import { Register } from './../Register/Register'
-import { ResetPassword } from '../ResetPass/ResetPass'
-import { PrivateRoute } from './../PrivateRoute/PrivateRoute'
+import './App.scss';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Header } from '../Header/Header';
+import { Footer } from '../Footer/Footer';
+import Search from '../Search/Search';
+import SearchInfo from '../SearchInfo/SearchInfo';
+import api from '../../utils/api';
+import Logo from '../Logo/Logo';
+import useDebounce from './../../hooks/useDebounce';
+import { UserContext } from './../../context/UserContext';
+import { CardContext } from '../../context/CardContext';
+import { isLiked } from './../../utils/utils';
+import { ThemeContext } from '../../context/ThemeContext';
+import { themes } from './../../context/ThemeContext';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { ProductPage } from './../../pages/product/ProductPage';
+import { CatalogPage } from './../../pages/catalog/CatalogPage';
+import { FaqPage } from './../../pages/faq/FaqPage';
+import { Favorites } from '../../pages/favorites/favorites';
+import { NoMatchFound } from './../../pages/NoMatchFound/NoMatchFound';
+import { Modal } from '../Modal/Modal';
+import { Login } from '../Login/Login';
+import { Register } from './../Register/Register';
+import { ResetPassword } from '../ResetPass/ResetPass';
+import { PrivateRoute } from './../PrivateRoute/PrivateRoute';
+import { Chart } from '../Chart/Chart';
 
 export function App() {
-  const [cards, setCards] = useState([])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [currentUser, setCurrentUser] = useState(null)
-  const [theme, setTheme] = useState(themes.light)
-  const [favorites, setFavorites] = useState([])
-  const [activeModal, setActiveModal] = useState(true)
-  const [isAuthentificated, setAuthentificated] = useState(false)
+  const [cards, setCards] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [theme, setTheme] = useState(themes.light);
+  const [favorites, setFavorites] = useState([]);
+  const [activeModal, setActiveModal] = useState(true);
+  const [isAuthentificated, setAuthentificated] = useState(false);
 
-  const debounceSearchQuery = useDebounce(searchQuery, 1000)
-  const navigate = useNavigate()
+  const debounceSearchQuery = useDebounce(searchQuery, 1000);
+  const navigate = useNavigate();
 
   const checkCardLocal = (item) => {
     // return true; //вернуть все карточки
@@ -43,8 +44,8 @@ export function App() {
       !item.pictures.includes('bipbap') &&
       !item.pictures.includes('pinimg') &&
       new Date(item.created_at) < new Date('2022-12-14T11:22:43.008Z') // фильтрация по дате создания (показывать те, которые были созданы до определенной даты)
-    )
-  }
+    );
+  };
 
   const handleRequest = () => {
     /* поиск по карточкам без запросов на сервер
@@ -57,23 +58,23 @@ export function App() {
     api
       .search(searchQuery)
       .then((res) => setCards(res.filter((e) => checkCardLocal(e))))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
     // .finally();
-  }
+  };
 
   useEffect(() => {
-    handleRequest()
-  }, [debounceSearchQuery])
+    handleRequest();
+  }, [debounceSearchQuery]);
 
   const handleFormSubmit = (e) => {
-    e.preventDefault()
-    handleRequest()
-    navigate('/')
-  }
+    e.preventDefault();
+    handleRequest();
+    navigate('/');
+  };
 
   const handleInputChange = (inputValue) => {
-    setSearchQuery(inputValue)
-  }
+    setSearchQuery(inputValue);
+  };
 
   useEffect(() => {
     /* поиск по карточкам без запросов на сервер 
@@ -85,20 +86,20 @@ export function App() {
 
     Promise.all([api.getProductsList(), api.getUserInfo()]).then(
       ([productsData, userData]) => {
-        setCards(productsData.products.filter((e) => checkCardLocal(e)))
-        setCurrentUser(userData)
+        setCards(productsData.products.filter((e) => checkCardLocal(e)));
+        setCurrentUser(userData);
         const favProducts = productsData.products.filter((product) =>
           isLiked(product.likes, userData._id),
-        )
-        setFavorites(favProducts)
+        );
+        setFavorites(favProducts);
       },
-    )
+    );
 
     /* получение данных без Promise
 
     api.getProductsList().then((data) => setCards(data.products));
     api.getUserInfo().then((userData) => setCurrentUser(userData)); */
-  }, [])
+  }, []);
 
   /*  изменение пользователя
   function handleUpdateUser(userUpdateData) {
@@ -109,88 +110,90 @@ export function App() {
 
   const handleProductLike = useCallback(
     (product) => {
-      const liked = isLiked(product.likes, currentUser?._id)
+      const liked = isLiked(product.likes, currentUser?._id);
 
       api.changeLikeProduct(product._id, liked).then((newCard) => {
         const newProducts = cards.map((cardState) => {
-          return cardState._id === newCard._id ? newCard : cardState
-        })
+          return cardState._id === newCard._id ? newCard : cardState;
+        });
 
         if (!liked) {
-          setFavorites((prevState) => [...prevState, newCard])
+          setFavorites((prevState) => [...prevState, newCard]);
         } else
           setFavorites((prevState) => {
-            return prevState.filter((card) => card._id !== newCard._id)
-          })
-        setCards(newProducts)
-      })
+            return prevState.filter((card) => card._id !== newCard._id);
+          });
+        setCards(newProducts);
+      });
     },
     [cards, currentUser?._id],
-  )
+  );
 
   const sortedData = (currentSort) => {
     //currentSort === id
     switch (currentSort) {
       case 'popular':
-        setCards([...cards.sort((a, b) => b?.likes?.length - a?.likes?.length)])
-        break
+        setCards([
+          ...cards.sort((a, b) => b?.likes?.length - a?.likes?.length),
+        ]);
+        break;
 
       case 'newest':
         setCards([
           ...cards.sort(
             (a, b) => new Date(b?.created_at) - new Date(a?.created_at),
           ),
-        ])
-        break
+        ]);
+        break;
 
       case 'cheep':
-        setCards([...cards.sort((a, b) => a?.price - b?.price)])
-        break
+        setCards([...cards.sort((a, b) => a?.price - b?.price)]);
+        break;
 
       case 'expensive':
-        setCards([...cards.sort((a, b) => b?.price - a?.price)])
-        break
+        setCards([...cards.sort((a, b) => b?.price - a?.price)]);
+        break;
 
       case 'rating':
         setCards([
           ...cards.sort((a, b) => b?.reviews?.length - a?.reviews?.length),
-        ])
-        break
+        ]);
+        break;
 
       case 'discount':
-        setCards([...cards.sort((a, b) => b?.discount - a?.discount)])
-        break
+        setCards([...cards.sort((a, b) => b?.discount - a?.discount)]);
+        break;
 
       default:
-        setCards([...cards.sort((a, b) => a.price - b.price)])
-        break
+        setCards([...cards.sort((a, b) => a.price - b.price)]);
+        break;
     }
-  }
+  };
 
   const cardProvider = {
     cards,
     favorites,
     onSortData: sortedData,
-  }
+  };
 
   const userProvider = {
     currentUser: currentUser,
     handleProductLike: handleProductLike,
-  }
+  };
 
   const toggleTheme = () => {
-    theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark)
-  }
+    theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark);
+  };
 
-  const location = useLocation()
+  const location = useLocation();
 
-  const backgroundLocation = location.state?.backgroundLocation
-  const initialPath = location.state?.initialPath
+  const backgroundLocation = location.state?.backgroundLocation;
+  const initialPath = location.state?.initialPath;
 
   useEffect(() => {
-    const haveToken = localStorage.getItem('token')
-    setAuthentificated(!!haveToken)
-  }, [activeModal])
+    const haveToken = localStorage.getItem('token');
+    setAuthentificated(!!haveToken);
+  }, [activeModal]);
 
   /* удаление товара по содержащейся в названии изображения фразы
   
@@ -247,7 +250,13 @@ export function App() {
                     }></Route>
 
                   {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
-
+                  <Route
+                    path="/chart"
+                    element={
+                      <PrivateRoute loggedIn={isAuthentificated}>
+                        <Chart />
+                      </PrivateRoute>
+                    }></Route>
                   <Route path="*" element={<NoMatchFound />}></Route>
                   <Route
                     path="/login"
@@ -359,5 +368,5 @@ export function App() {
         </CardContext.Provider>
       </ThemeContext.Provider>
     </div>
-  )
+  );
 }
