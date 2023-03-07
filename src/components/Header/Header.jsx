@@ -40,10 +40,7 @@ export function Header(props) {
           <Link
             className={s.login__btn}
             to={'/chart'}
-            state={{
-              backgroundLocation: location,
-              initialPath: location.pathname,
-            }}>
+            >
             Chart
           </Link>
         </div>
