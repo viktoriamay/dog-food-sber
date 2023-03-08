@@ -81,7 +81,7 @@ export const Chart = () => {
 
   return (
     <>
-      <div style={{ width: 700, height: 500 }} id="chartsId"></div>
+      <div style={{ width: '100%', height: 500 }} id="chartsId"></div>
     </>
   )
 }
