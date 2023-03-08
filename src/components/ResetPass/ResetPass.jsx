@@ -8,7 +8,7 @@ import { useState, useContext } from 'react';
 import { UserContext } from './../../context/UserContext';
 import { parseJwt } from './../../utils/parseJWT';
 
-export const ResetPassword = () => {
+export const ResetPassword = ({setAuthentificated}) => {
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
   const [tokenResp, setTokenResp] = useState(null);
@@ -44,16 +44,23 @@ export const ResetPassword = () => {
     }
   });
 
-  const sendData = async (data) => {
-    
+  const sendData = async (formData) => {
     if (tokenResp) {
-      const {_id} = parseJwt(data.token);
-      await authApi.resetPassToken({ password: data.token }, _id, tokenResp);
+      const { token, data } = await authApi.resetPassToken(
+        { password: formData.password },
+        formData.token,
+      )
+      if (token) {
+        localStorage.setItem('token', token)
+        localStorage.setItem('userData', JSON.stringify(data))
+        setAuthentificated(true)
+        // navigate('/')
+      }
     } else {
-      await authApi.resetPass(data);
-      setTokenResp(true);
+      await authApi.resetPass(formData)
+      setTokenResp(true)
     }
-  };
+  }
 
   return (
     <>

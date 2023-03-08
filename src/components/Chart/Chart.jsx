@@ -2,7 +2,7 @@ import * as echarts from 'echarts'
 import { useEffect } from 'react'
 
 export const Chart = () => {
-  const text = 'Продажи за месяц';
+  const text = 'Заказы за месяц';
   useEffect(() => {
     const option = {
       title: {
@@ -45,13 +45,13 @@ export const Chart = () => {
         {
           name: 'Начало',
           type: 'bar',
-          data: [18203, 23489, 29034, 104970, 131744, 30230],
+          data: [8203, 3489, 9034, 4970, 1744, 3230],
           color: '#747474'
         },
         {
           name: 'Конец',
           type: 'bar',
-          data: [19325, 23438, 31000, 121594, 134141, 81807],
+          data: [9325, 3438, 3000, 2594, 3141, 8807],
           color: '#fed700'
         }
       ],

@@ -5,6 +5,7 @@ const onResponse = (res) => {
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
+    this._configFunc = configFunc;
     this._headers = headers;
   }
 
@@ -13,57 +14,65 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(onResponse);
+    return fetch(`${this._baseUrl}/users/me`, this._configFunc()).then(onResponse);
   }
 
   getProductById(idProduct) {
-    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/${idProduct}`, this._configFunc()).then(onResponse);
   }
 
   deleteProductById(idProduct) {
-    return fetch(`${this._baseUrl}/products/${idProduct}`, { headers: this._headers, method: "DELETE" }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/${idProduct}`, { ...this._configFunc(), method: "DELETE" }).then(onResponse);
   }
 
   search(searchQuery) {
-    return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, { headers: this._headers }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, this._configFunc()).then(onResponse);
   }
 
   setUserInfo(dataUser) {
-    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
+    return fetch(`${this._baseUrl}/users/me`, { ...this._configFunc(), method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
   }
 
   changeLikeProduct(productId, isLike) {
-    return fetch(`${this._baseUrl}/products/likes/${productId}`, { headers: this._headers, method: isLike ? "DELETE" : "PUT" }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/likes/${productId}`, { ...this._configFunc(), method: isLike ? "DELETE" : "PUT" }).then(onResponse);
   }
 
   getUsersById(userId) {
-    return fetch(`${this._baseUrl}/v2/group-9/users/${userId}`, {
-      headers: this._headers,
-    }).then(onResponse);
+    return fetch(`${this._baseUrl}/v2/group-9/users/${userId}`, this._configFunc()).then(onResponse);
   }
 
   getUsers() {
-    return fetch(`${this._baseUrl}/v2/group-9/users`, {
-      headers: this._headers,
-    }).then(onResponse);
+    return fetch(`${this._baseUrl}/v2/group-9/users`, this._configFunc()).then(onResponse);
   }
 
   addReview(productId, body) {
-    return fetch(`${this._baseUrl}/products/review/${productId}`, { headers: this._headers, method: "POST", body: JSON.stringify(body) }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/review/${productId}`, { ...this._configFunc(), method: "POST", body: JSON.stringify(body) }).then(onResponse);
   }
 
   deleteReview(productId, reviewId) {
-    return fetch(`${this._baseUrl}/products/review/${productId}/${reviewId}`, { headers: this._headers, method: "DELETE" }).then(onResponse);
+    return fetch(`${this._baseUrl}/products/review/${productId}/${reviewId}`, { ...this._configFunc(), method: "DELETE" }).then(onResponse);
   }
 }
 
+const configFunc = () => {
+
+  console.log('HELLO i was called');
+  return {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+};
+
 const config = {
-  baseUrl: 'https://api.react-learning.ru',
+  baseUrl: "https://api.react-learning.ru",
   headers: {
-    'content-type': 'application/json',
-    Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2QxYmM1ODU5Yjk4YjAzOGY3N2FiZTQiLCJncm91cCI6Imdyb3VwLTkiLCJpYXQiOjE2NzY5OTcxMzgsImV4cCI6MTcwODUzMzEzOH0.W3w2OaAuYWj24WZHKG4IPLz2g81Xu66-rjcHGIs5ZXs'
-  }
-}
+    "content-type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+  configFunc: configFunc,
+};
 
 const api = new Api(config);
 

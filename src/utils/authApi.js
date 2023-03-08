@@ -1,6 +1,6 @@
 const onResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-}
+};
 
 class Api {
   constructor({ baseUrl, headers }) {
@@ -9,11 +9,19 @@ class Api {
   }
 
   login(dataUser) {
-    return fetch(`${this._baseUrl}/signin`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
+    return fetch(`${this._baseUrl}/signin`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(dataUser),
+    }).then(onResponse);
   }
 
-  registration(dataUser) {
-    return fetch(`${this._baseUrl}/signup`, { headers: this._headers, method: "POST", body: JSON.stringify(dataUser) }).then(onResponse);
+  register(dataUser) {
+    return fetch(`${this._baseUrl}/signup`, {
+      headers: this._headers,
+      method: 'POST',
+      body: JSON.stringify(dataUser),
+    }).then(onResponse);
   }
 
   resetPass(dataUser) {
@@ -21,10 +29,15 @@ class Api {
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify(dataUser),
-    }).then(onResponse);}
+    }).then(onResponse);
+  }
 
   resetPassToken(dataUser, userId, token) {
-    return fetch(`${this._baseUrl}/password-reset/${userId}/${token}`, { headers: this._headers, method: "PATCH", body: JSON.stringify(dataUser) }).then(onResponse);
+    return fetch(`${this._baseUrl}/password-reset/${token}`, {
+      headers: this._headers,
+      method: 'PATCH',
+      body: JSON.stringify(dataUser),
+    }).then(onResponse);
   }
 }
 
@@ -32,8 +45,8 @@ const config = {
   baseUrl: 'https://api.react-learning.ru',
   headers: {
     'content-type': 'application/json',
-  }
-}
+  },
+};
 
 export const authApi = new Api(config);
 
@@ -43,14 +56,14 @@ export const registration = (data) => {
   return fetch(`${config.baseUrl}/signup`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   }).then(onResponse);
-}
+};
 
 export const resetPass = (data) => {
   return fetch(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   }).then(onResponse);
-}
+};
