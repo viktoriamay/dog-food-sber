@@ -32,7 +32,7 @@ class Api {
     }).then(onResponse);
   }
 
-  resetPassToken(dataUser, userId, token) {
+  resetPassToken(dataUser, token) {
     return fetch(`${this._baseUrl}/password-reset/${token}`, {
       headers: this._headers,
       method: 'PATCH',
