@@ -1,12 +1,17 @@
 import './Logo.scss';
-import logoSrc from './logo.svg'
+import logoSrc from './logo.svg';
+import { useNavigate } from 'react-router-dom';
 
-function Logo({className, href, ...props}) {
+function Logo({ className, href, ...props }) {
+  const navigate = useNavigate();
   return (
-    <a href='/' className={className ? className : "logo"} {...props} >
-        <img src={logoSrc} alt="Логотип компании" className='logo__pic' />
-    </a>
-  )
+    <div
+      className={className ? className : 'logo'}
+      {...props}
+      onClick={() => navigate('/')}>
+      <img src={logoSrc} alt="Логотип компании" className="logo__pic" />
+    </div>
+  );
 }
 
 export default Logo;

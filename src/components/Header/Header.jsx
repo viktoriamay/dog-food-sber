@@ -8,6 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as FavIcon } from './img/fav.svg';
 import { ReactComponent as ProfileIcon } from './img/profile.svg';
 import { ReactComponent as ChartsIcon } from './img/charts.svg';
+import { ReactComponent as LogIcon } from './img/log.svg';
 import { UserContext } from './../../context/UserContext';
 
 export function Header(props) {
@@ -46,7 +47,7 @@ export function Header(props) {
                   backgroundLocation: location,
                   initialPath: location.pathname,
                 }}>
-                <ProfileIcon />
+                <LogIcon />
               </Link>
             )}
             <Link to={'/chart'}>

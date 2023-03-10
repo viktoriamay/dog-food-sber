@@ -60,6 +60,14 @@ export const Login = () => {
   const location = useLocation();
   const initialPath = location.state?.initialPath;
 
+  const handleClickToRegister = (e) => {
+    e.preventDefault()
+    navigate('/register', {
+      replace: true,
+      state: { backgroundLocation: location, initialPath: initialPath },
+    })
+  }
+
   return (
     <>
       <Form handleFormSubmit={handleSubmit(sendData)} title="Вход">
@@ -92,7 +100,10 @@ export const Login = () => {
         <span
           className="auth__info auth__link"
           onClick={() => {
-            navigate('/reset-pass');
+            navigate('/reset-pass', {
+              replace: true,
+              state: { backgrounLocation: location, initialPath },
+            });
           }}>
           Восстановить пароль
         </span>
@@ -103,12 +114,7 @@ export const Login = () => {
           <BaseButton
             type="button"
             color={'white'}
-            onClick={() =>
-              navigate('/register', {
-                replace: true,
-                state: { backgroundLocation: location, initialPath },
-              })
-            }>
+            onClick={handleClickToRegister}>
             Регистрация
           </BaseButton>
         </div>
