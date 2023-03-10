@@ -24,6 +24,7 @@ import { Register } from './../Register/Register';
 import { ResetPassword } from '../ResetPass/ResetPass';
 import { PrivateRoute } from './../PrivateRoute/PrivateRoute';
 import { Chart } from '../Chart/Chart';
+import { Profile } from '../Profile/Profile';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -63,6 +64,9 @@ export function App() {
   };
 
   useEffect(() => {
+    if (!isAuthentificated) {
+      return;
+    }
     handleRequest();
   }, [debounceSearchQuery]);
 
@@ -77,6 +81,9 @@ export function App() {
   };
 
   useEffect(() => {
+    if (!isAuthentificated) {
+      return;
+    }
     /* поиск по карточкам без запросов на сервер 
 
     const filteredCards = data.filter((item) =>
@@ -99,7 +106,7 @@ export function App() {
 
     api.getProductsList().then((data) => setCards(data.products));
     api.getUserInfo().then((userData) => setCurrentUser(userData)); */
-  }, []);
+  }, [isAuthentificated]);
 
   /*  изменение пользователя
   function handleUpdateUser(userUpdateData) {
@@ -170,17 +177,6 @@ export function App() {
     }
   };
 
-  const cardProvider = {
-    cards,
-    favorites,
-    onSortData: sortedData,
-  };
-
-  const userProvider = {
-    currentUser: currentUser,
-    handleProductLike: handleProductLike,
-  };
-
   const toggleTheme = () => {
     theme === themes.dark ? setTheme(themes.light) : setTheme(themes.dark);
   };
@@ -193,7 +189,7 @@ export function App() {
   useEffect(() => {
     const haveToken = localStorage.getItem('token');
     setAuthentificated(!!haveToken);
-  }, [activeModal]);
+  });
 
   /* удаление товара по содержащейся в названии изображения фразы
   
@@ -207,6 +203,20 @@ export function App() {
     setCards(filteredCards);
   }, []) */
 
+  const cardProvider = {
+    cards,
+    favorites,
+    onSortData: sortedData,
+  };
+
+  const userProvider = {
+    currentUser: currentUser,
+    handleProductLike,
+    isAuthentificated, //= isAuthentificated: isAuthentificated
+    setActiveModal,
+    setAuthentificated,
+  };
+
   const authRoutes = (
     <>
       <Route
@@ -215,24 +225,21 @@ export function App() {
           <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
             <Login />
           </Modal>
-        }
-      ></Route>
+        }></Route>
       <Route
         path="register"
         element={
           <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
             <Register />
           </Modal>
-        }
-      ></Route>
+        }></Route>
       <Route
         path="reset-pass"
         element={
           <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
             <ResetPassword setAuthentificated={setAuthentificated} />
           </Modal>
-        }
-      ></Route>
+        }></Route>
     </>
   );
 
@@ -241,9 +248,7 @@ export function App() {
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
         <CardContext.Provider value={cardProvider}>
           <UserContext.Provider value={userProvider}>
-            <Header
-              setActiveModal={setActiveModal}
-              isAuthentificated={isAuthentificated}>
+            <Header>
               <Logo className="logo logo_place_header" />
               <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
             </Header>
@@ -269,6 +274,7 @@ export function App() {
                   <Route
                     path="/product/:productId"
                     element={<ProductPage />}></Route>
+                  <Route path="/profile" element={<Profile />}></Route>
                   <Route path="/faq" element={<FaqPage />}></Route>
                   <Route
                     path="/favorites"
@@ -290,11 +296,7 @@ export function App() {
                   {authRoutes}
                 </Routes>
 
-                {backgroundLocation && (
-                  <Routes>
-                    {authRoutes}
-                  </Routes>
-                )}
+                {backgroundLocation && <Routes>{authRoutes}</Routes>}
                 {/* пример вывода информации из формы
               {!!contacts.length && contacts.map((el) => (
     
@@ -309,9 +311,7 @@ export function App() {
             ) : (
               <div className="container not-auth">
                 Авторизуйтесь, пожалуйста
-                <Routes>
-                  {authRoutes}
-                </Routes>
+                <Routes>{authRoutes}</Routes>
               </div>
             )}
             <Footer />

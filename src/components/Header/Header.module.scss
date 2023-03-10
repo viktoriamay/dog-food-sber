@@ -4,11 +4,16 @@
   padding: 12px 0;
 }
 
+.icons__like {
+  width: 34px;
+  margin-right: 2rem;
+}
+
 .wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 80px;
+  gap: 3rem;
 }
 
 .login__btn {
@@ -38,6 +43,8 @@
 
 .iconsMenu {
   display: flex;
+  align-items: center;
+  gap: 2rem;
 
   & svg {
     width: 100%;

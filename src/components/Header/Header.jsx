@@ -1,17 +1,23 @@
-import React from 'react'
-import cn from 'classnames'
-import { useContext } from 'react'
-import s from './Header.module.scss'
-import { CardContext } from './../../context/CardContext'
+import React from 'react';
+import cn from 'classnames';
+import { useContext } from 'react';
+import s from './Header.module.scss';
+import { CardContext } from './../../context/CardContext';
 // import { ThemeContext } from "../../context/ThemeContext";
-import { Link, useLocation } from 'react-router-dom'
-import { ReactComponent as FavIcon } from './img/fav.svg'
+import { Link, useLocation } from 'react-router-dom';
+import { ReactComponent as FavIcon } from './img/fav.svg';
+import { ReactComponent as ProfileIcon } from './img/profile.svg';
+import { ReactComponent as ChartsIcon } from './img/charts.svg';
+import { UserContext } from './../../context/UserContext';
 
 export function Header(props) {
-  const { favorites } = useContext(CardContext)
-  const location = useLocation()
+  const { favorites } = useContext(CardContext);
+  const location = useLocation();
   // const { toggleTheme } = useContext(ThemeContext);
   // console.log(props); для понимания что приходит в пропсы
+
+  const { isAuthentificated, setActiveModal } = useContext(UserContext);
+
   return (
     <header className={cn(s.header, 'cover')}>
       <div className="container">
@@ -19,32 +25,36 @@ export function Header(props) {
           {props.children}
 
           <div className={s.iconsMenu}>
-            <Link className={s.favoritesLink} to={'/favorites'}>
-              <FavIcon />
-              {favorites.length !== 0 && (
-                <span className={s.iconBubble}>{favorites.length}</span>
-              )}
+            <div className={s.icons__like}>
+              <Link className={s.favoritesLink} to={'/favorites'}>
+                <FavIcon />
+                {favorites.length !== 0 && (
+                  <span className={s.iconBubble}>{favorites.length}</span>
+                )}
+              </Link>
+            </div>
+            {/* {!props.isAuthentificated &&  скрывать эту кнопку при условии что мы вошли в аккаунт */}
+            {isAuthentificated ? (
+              <Link to={'/profile'}>
+                <ProfileIcon />
+              </Link>
+            ) : (
+              <Link
+                to={'/login'}
+                onClick={() => setActiveModal(true)}
+                state={{
+                  backgroundLocation: location,
+                  initialPath: location.pathname,
+                }}>
+                <ProfileIcon />
+              </Link>
+            )}
+            <Link to={'/chart'}>
+              <ChartsIcon />
             </Link>
           </div>
-          {/* {!props.isAuthentificated &&  скрывать эту кнопку при условии что мы вошли в аккаунт */}
-          <Link
-            className={s.login__btn}
-            to={'/login'}
-            onClick={() => props.setActiveModal(true)}
-            state={{
-              backgroundLocation: location,
-              initialPath: location.pathname,
-            }}>
-            Вход
-          </Link>
-          <Link
-            className={s.login__btn}
-            to={'/chart'}
-            >
-            Chart
-          </Link>
         </div>
       </div>
     </header>
-  )
+  );
 }

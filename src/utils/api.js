@@ -55,8 +55,6 @@ class Api {
 }
 
 const configFunc = () => {
-
-  console.log('HELLO i was called');
   return {
     headers: {
       "content-type": "application/json",
