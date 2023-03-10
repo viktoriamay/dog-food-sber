@@ -8,7 +8,7 @@ import { ReactComponent as Basket } from './img/basket.svg'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Rating } from '../Rating/Rating'
 import api from './../../utils/api'
-import { BaseButton } from './../BaseButton/BaseButton'
+import { BaseButton } from '../BaseButton/BaseButton'
 import { Form } from '../Form/Form'
 
 import { useForm } from 'react-hook-form'

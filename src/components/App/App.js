@@ -207,6 +207,35 @@ export function App() {
     setCards(filteredCards);
   }, []) */
 
+  const authRoutes = (
+    <>
+      <Route
+        path="login"
+        element={
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+            <Login />
+          </Modal>
+        }
+      ></Route>
+      <Route
+        path="register"
+        element={
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+            <Register />
+          </Modal>
+        }
+      ></Route>
+      <Route
+        path="reset-pass"
+        element={
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal}>
+            <ResetPassword setAuthentificated={setAuthentificated} />
+          </Modal>
+        }
+      ></Route>
+    </>
+  );
+
   return (
     <div className="App">
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
@@ -258,64 +287,12 @@ export function App() {
                       </PrivateRoute>
                     }></Route>
                   <Route path="*" element={<NoMatchFound />}></Route>
-                  <Route
-                    path="/login"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <Login />
-                      </Modal>
-                    }></Route>
-                  <Route
-                    path="/register"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <Register />
-                      </Modal>
-                    }></Route>
-                  <Route
-                    path="/reset-pass"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <ResetPassword />
-                      </Modal>
-                    }></Route>
+                  {authRoutes}
                 </Routes>
 
                 {backgroundLocation && (
                   <Routes>
-                    <Route
-                      path="/login"
-                      element={
-                        <Modal
-                          activeModal={activeModal}
-                          setActiveModal={setActiveModal}>
-                          <Login />
-                        </Modal>
-                      }></Route>
-                    <Route
-                      path="/register"
-                      element={
-                        <Modal
-                          activeModal={activeModal}
-                          setActiveModal={setActiveModal}>
-                          <Register />
-                        </Modal>
-                      }></Route>
-                    <Route
-                      path="/reset-pass"
-                      element={
-                        <Modal
-                          activeModal={activeModal}
-                          setActiveModal={setActiveModal}>
-                          <ResetPassword />
-                        </Modal>
-                      }></Route>
+                    {authRoutes}
                   </Routes>
                 )}
                 {/* пример вывода информации из формы
@@ -333,33 +310,7 @@ export function App() {
               <div className="container not-auth">
                 Авторизуйтесь, пожалуйста
                 <Routes>
-                  <Route
-                    path="/login"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <Login />
-                      </Modal>
-                    }></Route>
-                  <Route
-                    path="/register"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <Register />
-                      </Modal>
-                    }></Route>
-                  <Route
-                    path="/reset-pass"
-                    element={
-                      <Modal
-                        activeModal={activeModal}
-                        setActiveModal={setActiveModal}>
-                        <ResetPassword />
-                      </Modal>
-                    }></Route>
+                  {authRoutes}
                 </Routes>
               </div>
             )}
