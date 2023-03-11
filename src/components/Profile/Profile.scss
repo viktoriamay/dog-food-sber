@@ -1,0 +1,32 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 740px;
+
+  &__back {
+    font-size: 14px;
+    line-height: 20px;
+    color: #7b8e98;
+    cursor: pointer;
+    transition: 0.1s ease;
+    &:hover {
+      color: #000000;
+    }
+  }
+
+  &__title {
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 32px;
+    padding: 4px 0 0 0;
+    margin: 0;
+  }
+
+  &__info_form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
