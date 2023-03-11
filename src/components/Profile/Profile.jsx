@@ -6,6 +6,7 @@ import { Form } from './../Form/Form';
 import { useForm } from 'react-hook-form';
 import { BaseButton } from './../BaseButton/BaseButton';
 import { VALIDATE_CONFIG } from './../../constants/constants';
+import api from './../../utils/api';
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -17,11 +18,14 @@ export const Profile = () => {
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
-  const sendData = (data) => {
-    console.log(data);
+  const sendData = async (data) => {
+    await api.setUserInfo(data);
   };
 
-  console.log({ errors });
+  const required = {
+    value: true,
+    message: VALIDATE_CONFIG.requiredMessage,
+  };
 
   return (
     <div className="profile">
@@ -37,10 +41,7 @@ export const Profile = () => {
             <div>
               <input
                 {...register('name', {
-                  required: {
-                    value: true,
-                    message: VALIDATE_CONFIG.requiredMessage,
-                  },
+                  required,
                 })}
                 className={`auth__input ${
                   errors?.name ? 'auth__input_error' : ''
@@ -57,10 +58,7 @@ export const Profile = () => {
             <div>
               <input
                 {...register('about', {
-                  required: {
-                    value: true,
-                    message: VALIDATE_CONFIG.requiredMessage,
-                  },
+                  required,
                 })}
                 className={`auth__input ${
                   errors?.about ? 'auth__input_error' : ''
