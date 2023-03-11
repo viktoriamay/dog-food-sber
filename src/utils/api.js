@@ -3,14 +3,14 @@ const onResponse = (res) => {
 }
 
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl, headers, configFunc }) {
     this._baseUrl = baseUrl;
-    this._configFunc = configFunc;
     this._headers = headers;
+    this._configFunc = configFunc;
   }
 
   getProductsList() {
-    return fetch(`${this._baseUrl}/products`, { headers: this._headers }).then(onResponse);
+    return fetch(`${this._baseUrl}/products`, this._configFunc()).then(onResponse);
   }
 
   getUserInfo() {

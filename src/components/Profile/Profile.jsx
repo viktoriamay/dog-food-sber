@@ -27,6 +27,11 @@ export const Profile = () => {
     message: VALIDATE_CONFIG.requiredMessage,
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <div className="profile">
       <div className="profile__controls">
@@ -96,7 +101,15 @@ export const Profile = () => {
       ) : (
         <>Loading</>
       )}
-      <div className="profile__logout"></div>
+      <div className="profile__logout">
+        <BaseButton
+          // type="button"
+          color={'white'}
+          onClick={handleLogout}
+        >
+          Выйти
+        </BaseButton>
+      </div>
     </div>
   );
 };
