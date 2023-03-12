@@ -102,11 +102,7 @@ export const Profile = () => {
         <>Loading</>
       )}
       <div className="profile__logout">
-        <BaseButton
-          // type="button"
-          color={'white'}
-          onClick={handleLogout}
-        >
+        <BaseButton color={'white'} onClick={handleLogout}>
           Выйти
         </BaseButton>
       </div>
