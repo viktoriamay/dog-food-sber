@@ -248,56 +248,57 @@ export function App() {
       <ThemeContext.Provider value={{ theme: themes, toggleTheme }}>
         <CardContext.Provider value={cardProvider}>
           <UserContext.Provider value={userProvider}>
-            <Header>
-              <Logo className="logo logo_place_header" />
-              <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
-            </Header>
-            {isAuthentificated ? (
-              <main
-                className={`content container content__${
-                  theme.light ? 'light' : 'dark'
-                }`}>
-                <SearchInfo
-                  searchText={searchQuery}
-                  searchCount={cards.length}
-                />
-                <Routes
-                  location={
-                    backgroundLocation && {
-                      ...backgroundLocation,
-                      path: initialPath || location,
-                    }
-                  }>
-                  <Route
-                    path="/"
-                    element={<CatalogPage onSortData={sortedData} />}></Route>
-                  <Route
-                    path="/product/:productId"
-                    element={<ProductPage />}></Route>
-                  <Route path="/profile" element={<Profile />}></Route>
-                  <Route path="/faq" element={<FaqPage />}></Route>
-                  <Route
-                    path="/favorites"
-                    element={
-                      <PrivateRoute loggedIn={isAuthentificated}>
-                        <Favorites />
-                      </PrivateRoute>
-                    }></Route>
+            <div className="wrapper">
+              <Header>
+                <Logo className="logo logo_place_header" />
+                <Search onSubmit={handleFormSubmit} onInput={setSearchQuery} />
+              </Header>
+              {isAuthentificated ? (
+                <main
+                  className={`main content container content__${
+                    theme.light ? 'light' : 'dark'
+                  }`}>
+                  <SearchInfo
+                    searchText={searchQuery}
+                    searchCount={cards.length}
+                  />
+                  <Routes
+                    location={
+                      backgroundLocation && {
+                        ...backgroundLocation,
+                        path: initialPath || location,
+                      }
+                    }>
+                    <Route
+                      path="/"
+                      element={<CatalogPage onSortData={sortedData} />}></Route>
+                    <Route
+                      path="/product/:productId"
+                      element={<ProductPage />}></Route>
+                    <Route path="/profile" element={<Profile />}></Route>
+                    <Route path="/faq" element={<FaqPage />}></Route>
+                    <Route
+                      path="/favorites"
+                      element={
+                        <PrivateRoute loggedIn={isAuthentificated}>
+                          <Favorites />
+                        </PrivateRoute>
+                      }></Route>
 
-                  {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
-                  <Route
-                    path="/chart"
-                    element={
-                      <PrivateRoute loggedIn={isAuthentificated}>
-                        <Chart />
-                      </PrivateRoute>
-                    }></Route>
-                  <Route path="*" element={<NoMatchFound />}></Route>
-                  {authRoutes}
-                </Routes>
+                    {/* <Route path='/form' element={<RegistrationForm addContact={addContact} />}></Route> */}
+                    <Route
+                      path="/chart"
+                      element={
+                        <PrivateRoute loggedIn={isAuthentificated}>
+                          <Chart />
+                        </PrivateRoute>
+                      }></Route>
+                    <Route path="*" element={<NoMatchFound />}></Route>
+                    {authRoutes}
+                  </Routes>
 
-                {backgroundLocation && <Routes>{authRoutes}</Routes>}
-                {/* пример вывода информации из формы
+                  {backgroundLocation && <Routes>{authRoutes}</Routes>}
+                  {/* пример вывода информации из формы
               {!!contacts.length && contacts.map((el) => (
     
                 <div key={Math.random() * 100}>
@@ -307,14 +308,15 @@ export function App() {
                   <p>{el.phoneNumber}</p>
                   <p>{el.checked}</p>
                 </div>))} */}
-              </main>
-            ) : (
-              <div className="container not-auth">
-                Авторизуйтесь, пожалуйста
-                <Routes>{authRoutes}</Routes>
-              </div>
-            )}
-            <Footer />
+                </main>
+              ) : (
+                <div className="main container not-auth">
+                  Авторизуйтесь, пожалуйста
+                  <Routes>{authRoutes}</Routes>
+                </div>
+              )}
+              <Footer />
+            </div>
           </UserContext.Provider>
         </CardContext.Provider>
       </ThemeContext.Provider>
