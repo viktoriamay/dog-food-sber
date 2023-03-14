@@ -1,18 +1,18 @@
-import cn from 'classnames'
-import React, { useEffect, useState } from 'react'
-import s from './Product.module.css'
-import { ReactComponent as Save } from './img/save.svg'
-import truck from './img/truck.svg'
-import quality from './img/quality.svg'
-import { ReactComponent as Basket } from './img/basket.svg'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Rating } from '../Rating/Rating'
-import api from './../../utils/api'
-import { BaseButton } from '../BaseButton/BaseButton'
-import { Form } from '../Form/Form'
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
+import s from './Product.module.css';
+import { ReactComponent as Save } from './img/save.svg';
+import truck from './img/truck.svg';
+import quality from './img/quality.svg';
+import { ReactComponent as Basket } from './img/basket.svg';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Rating } from '../Rating/Rating';
+import api from './../../utils/api';
+import { BaseButton } from '../BaseButton/BaseButton';
+import { Form } from '../Form/Form';
 
-import { useForm } from 'react-hook-form'
-import { VALIDATE_CONFIG } from './../../constants/constants'
+import { useForm } from 'react-hook-form';
+import { VALIDATE_CONFIG } from './../../constants/constants';
 
 export const Product = ({
   pictures,
@@ -28,57 +28,57 @@ export const Product = ({
   deleteReview,
   stock,
 }) => {
-  const discount_price = Math.round(price - (price * discount) / 100)
-  const isLike = likes.some((id) => id === currentUser?._id)
-  const desctiptionHTML = { __html: description }
+  const discount_price = Math.round(price - (price * discount) / 100);
+  const isLike = likes.some((id) => id === currentUser?._id);
+  const desctiptionHTML = { __html: description };
 
-  const [isClicked, setClicked] = useState(isLike)
-  const [users, setUsers] = useState([])
-  const [showForm, setShowForm] = useState(false)
-  const [rating, setRating] = useState(5)
-  const [counterCart, setCounterCart] = useState(0)
-  const [reviewsProduct, setReviewsProduct] = useState(reviews?.slice(0, 2))
+  const [isClicked, setClicked] = useState(isLike);
+  const [users, setUsers] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [rating, setRating] = useState(5);
+  const [counterCart, setCounterCart] = useState(0);
+  const [reviewsProduct, setReviewsProduct] = useState(reviews?.slice(0, 2));
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClickBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'onBlur' })
+  } = useForm({ mode: 'onBlur' });
 
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     if (location.search.includes('name=dear')) {
-      navigate('/')
+      navigate('/');
     }
-  }, [location.search])
+  }, [location.search]);
 
   const onLike = (e) => {
-    onProductLike(e)
-    setClicked((state) => !state)
-  }
+    onProductLike(e);
+    setClicked((state) => !state);
+  };
 
   useEffect(() => {
-    api.getUsers().then((data) => setUsers(data))
-  }, [])
+    api.getUsers().then((data) => setUsers(data));
+  }, []);
 
   const getUser = (id) => {
-    if (!users.length) return ''
-    const user = users.find((el) => el._id === id)
-    return user?.name ?? user
-  }
+    if (!users.length) return '';
+    const user = users.find((el) => el._id === id);
+    return user?.name ?? user;
+  };
 
   const options = {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  }
+  };
 
   const reviewRegister = register('text', {
     required: {
@@ -93,36 +93,36 @@ export const Product = ({
       value: EMAIL_REGEXP,
       message: VALIDATE_CONFIG.email
     } */
-  })
+  });
 
   const sendReview = (data) => {
-    onSendReview({ ...data, rating })
-    setShowForm(false)
-  }
+    onSendReview({ ...data, rating });
+    setShowForm(false);
+  };
 
   const handleCart = () => {
-    const goods = localStorage.getItem('goods')
+    const goods = localStorage.getItem('goods');
     if (!goods) {
-      localStorage.setItem('goods', JSON.stringify([{ name, counterCart }]))
+      localStorage.setItem('goods', JSON.stringify([{ name, counterCart }]));
     } else {
       localStorage.setItem(
         'goods',
         JSON.stringify([...JSON.parse(goods), { name, counterCart }]),
-      )
+      );
     }
-  }
+  };
 
   const showMore = () => {
     setReviewsProduct((state) => {
-      return [...reviews?.slice(0, state.length + 2)]
-    })
-  }
+      return [...reviews?.slice(0, state.length + 2)];
+    });
+  };
 
   const hideReviews = () => {
     setReviewsProduct(() => {
-      return [...reviews?.slice(0, 2)]
-    })
-  }
+      return [...reviews?.slice(0, 2)];
+    });
+  };
 
   return (
     <>
@@ -310,5 +310,5 @@ export const Product = ({
           ))}
       </div>
     </>
-  )
-}
+  );
+};

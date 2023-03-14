@@ -34,12 +34,12 @@ export const Login = () => {
   const initialPath = location.state?.initialPath;
 
   const handleClickToRegister = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     navigate('/register', {
       replace: true,
       state: { backgroundLocation: location, initialPath: initialPath },
-    })
-  }
+    });
+  };
 
   return (
     <>

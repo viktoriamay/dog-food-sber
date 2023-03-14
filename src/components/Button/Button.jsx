@@ -1,16 +1,16 @@
 import s from './Button.module.scss';
 import cn from 'classnames';
 
-function Button({type, children}) {
-    
+function Button({ type, children }) {
   return (
-    <button className={ cn(s.button, {
+    <button
+      className={cn(s.button, {
         [s.primary]: type === 'primary',
         [s.secondary]: type === 'secondary',
-    })}>
-        {children}
+      })}>
+      {children}
     </button>
-  )
+  );
 }
 
 export default Button;

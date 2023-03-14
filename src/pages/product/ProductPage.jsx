@@ -15,9 +15,8 @@ export const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const {handleProductLike} = useContext(UserContext);
-  const {favorites} = useContext(CardContext);
-
+  const { handleProductLike } = useContext(UserContext);
+  const { favorites } = useContext(CardContext);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -42,10 +41,10 @@ export const ProductPage = () => {
 
   const onProductLike = (e) => {
     handleProductLike(product);
-    setProduct({...product});
+    setProduct({ ...product });
   };
-  
-  const {productId} = useParams();
+
+  const { productId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +53,10 @@ export const ProductPage = () => {
     api
       .getProductById(productId)
       .then((productData) => setProduct(productData))
-      .catch((err) => {console.log('err', err); navigate('/')})
+      .catch((err) => {
+        console.log('err', err);
+        navigate('/');
+      })
       .finally(() => setIsLoading(false));
   }, [productId, favorites]);
 
@@ -62,18 +64,18 @@ export const ProductPage = () => {
     // setIsLoading(true);
     try {
       const result = await api.addReview(product._id, data);
-      setProduct({...result});
+      setProduct({ ...result });
       openNotification('success', 'Успешно', 'Ваш отзыв успешно отправлен');
     } catch (error) {
       openNotification('error', 'Ошибка', 'Не получилось отправить отзыв');
     }
     // setIsLoading(false);
-  }
+  };
 
   const deleteReview = async (id) => {
     try {
       const result = await api.deleteReview(product._id, id);
-      setProduct({...result});
+      setProduct({ ...result });
       openNotification('success', 'Успешно', 'Ваш отзыв успешно удален');
     } catch (error) {
       openNotification('error', 'Ошибка', 'Не получилось удалить отзыв');
@@ -81,14 +83,21 @@ export const ProductPage = () => {
   };
 
   return (
-      <main className='content container'>
-        <div className='content__cards'>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <Product {...product} currentUser={currentUser} onProductLike={onProductLike} setProduct={setProduct} onSendReview={onSendReview} deleteReview={deleteReview} />
-          )}
-        </div>
-      </main>
-  )
-}
+    <main className="content container">
+      <div className="content__cards">
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Product
+            {...product}
+            currentUser={currentUser}
+            onProductLike={onProductLike}
+            setProduct={setProduct}
+            onSendReview={onSendReview}
+            deleteReview={deleteReview}
+          />
+        )}
+      </div>
+    </main>
+  );
+};
