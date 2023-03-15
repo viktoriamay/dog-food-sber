@@ -211,6 +211,7 @@ export function App() {
 
   const userProvider = {
     currentUser: currentUser,
+    setCurrentUser,
     handleProductLike,
     isAuthentificated, //= isAuthentificated: isAuthentificated
     setActiveModal,

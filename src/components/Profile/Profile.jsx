@@ -7,10 +7,11 @@ import { useForm } from 'react-hook-form';
 import { BaseButton } from './../BaseButton/BaseButton';
 import { VALIDATE_CONFIG } from './../../constants/constants';
 import api from './../../utils/api';
+import { openNotification } from './../Notifications/Notifications';
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   const {
     register,
@@ -19,7 +20,14 @@ export const Profile = () => {
   } = useForm({ mode: 'onBlur' });
 
   const sendData = async (data) => {
-    await api.setUserInfo(data);
+    try {
+      await api
+          .setUserInfo(data)
+          .then((data) => setCurrentUser(data)); // сохранение отображения новых данных юзера без перезагрузки
+      openNotification('success', 'Успешно', 'Данные успешно изменены');
+    } catch (error) {
+      openNotification('error', 'Ошибка', 'Не получилось изменить данные');
+    }
   };
 
   const required = {
