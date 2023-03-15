@@ -21,9 +21,7 @@ export const Profile = () => {
 
   const sendData = async (data) => {
     try {
-      await api
-          .setUserInfo(data)
-          .then((data) => setCurrentUser(data)); // сохранение отображения новых данных юзера без перезагрузки
+      await api.setUserInfo(data).then((data) => setCurrentUser(data)); // сохранение отображения новых данных юзера без перезагрузки
       openNotification('success', 'Успешно', 'Данные успешно изменены');
     } catch (error) {
       openNotification('error', 'Ошибка', 'Не получилось изменить данные');
@@ -101,19 +99,26 @@ export const Profile = () => {
               defaultValue={currentUser._id}
               disabled
             />
+
+            <BaseButton
+              className="profile__button"
+              type="submit"
+              color={'yellow'}>
+              Сохранить
+            </BaseButton>
+            <div className="profile__logout">
+              <BaseButton
+                className="profile__button"
+                color={'white'}
+                onClick={handleLogout}>
+                Выйти
+              </BaseButton>
+            </div>
           </div>
-          <BaseButton type="submit" color={'yellow'}>
-            Сохранить
-          </BaseButton>
         </Form>
       ) : (
         <>Loading</>
       )}
-      <div className="profile__logout">
-        <BaseButton color={'white'} onClick={handleLogout}>
-          Выйти
-        </BaseButton>
-      </div>
     </div>
   );
 };

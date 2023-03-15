@@ -1,4 +1,4 @@
-import s from './Form.module.scss';
+import s from './Form.module.scss'; 
 
 export const Form = ({ title, handleFormSubmit, children, className }) => {
   return (

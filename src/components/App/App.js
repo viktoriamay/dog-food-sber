@@ -218,7 +218,7 @@ export function App() {
     setAuthentificated,
   };
 
-  const closeModalEsc = () => {
+  const handleCloseModal = () => {
       setActiveModal(false);
       navigate('/');
   };
@@ -228,21 +228,21 @@ export function App() {
       <Route
         path="login"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} closeModalEsc={closeModalEsc} >
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal} >
             <Login />
           </Modal>
         }></Route>
       <Route
         path="register"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} closeModalEsc={closeModalEsc}>
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal}>
             <Register />
           </Modal>
         }></Route>
       <Route
         path="reset-pass"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} closeModalEsc={closeModalEsc}>
+          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal}>
             <ResetPassword setAuthentificated={setAuthentificated} />
           </Modal>
         }></Route>

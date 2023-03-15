@@ -109,7 +109,7 @@
 }
 
 @media (max-width: 880px) {
-	.wrapper {
+	.footer__wrapper {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		row-gap: 40px;
@@ -122,7 +122,7 @@
 }
 
 @media (max-width: 450px) {
-	.wrapper {
+	.footer__wrapper {
 		grid-template-columns: repeat(1, 1fr);
 	}
 
