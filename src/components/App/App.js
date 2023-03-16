@@ -25,6 +25,8 @@ import { ResetPassword } from '../ResetPass/ResetPass';
 import { PrivateRoute } from './../PrivateRoute/PrivateRoute';
 import { Chart } from '../Chart/Chart';
 import { Profile } from '../Profile/Profile';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProducts } from './../../storage/actions/productsActions';
 
 export function App() {
   const [cards, setCards] = useState([]);
@@ -80,16 +82,18 @@ export function App() {
     setSearchQuery(inputValue);
   };
 
+  /* вариант до редакса
+  
   useEffect(() => {
     if (!isAuthentificated) {
       return;
     }
-    /* поиск по карточкам без запросов на сервер 
+    // поиск по карточкам без запросов на сервер 
 
-    const filteredCards = data.filter((item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setCards([...filteredCards]) */
+    // const filteredCards = data.filter((item) =>
+    //   item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setCards([...filteredCards])
 
     Promise.all([api.getProductsList(), api.getUserInfo()]).then(
       ([productsData, userData]) => {
@@ -102,11 +106,11 @@ export function App() {
       },
     );
 
-    /* получение данных без Promise
+    // получение данных без Promise
 
-    api.getProductsList().then((data) => setCards(data.products));
-    api.getUserInfo().then((userData) => setCurrentUser(userData)); */
-  }, [isAuthentificated]);
+    // api.getProductsList().then((data) => setCards(data.products));
+    // api.getUserInfo().then((userData) => setCurrentUser(userData));
+  }, [isAuthentificated]); */
 
   /*  изменение пользователя
   function handleUpdateUser(userUpdateData) {
@@ -114,6 +118,43 @@ export function App() {
       setCurrentUser(newUser);
     });
   } */
+
+  // ниже редакс
+
+  useEffect(() => {
+    if (!isAuthentificated) {
+      return;
+    }
+
+    api.getUserInfo().then((userData) => setCurrentUser(userData))
+    
+  }, [isAuthentificated]);
+
+  const dispatch = useDispatch();
+  // const stateRedux = useSelector(state=> state);
+  const stateRedux = useSelector(state=> state.products.list);
+  const total = useSelector(({products}) => products.total);
+
+  console.log({stateRedux, total});
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [isAuthentificated]);
+
+  useEffect(() => {
+    if (currentUser?._id && stateRedux) {
+      setCards(stateRedux.filter((e) => checkCardLocal(e)));
+
+      const favProducts = stateRedux.filter((product) =>
+          isLiked(product.likes, currentUser._id),
+        );
+        setFavorites(favProducts);
+    }
+    
+  }, [currentUser?._id, stateRedux]);
+
+  // конец редакс
+  
 
   const handleProductLike = useCallback(
     (product) => {
@@ -219,8 +260,8 @@ export function App() {
   };
 
   const handleCloseModal = () => {
-      setActiveModal(false);
-      navigate('/');
+    setActiveModal(false);
+    navigate('/');
   };
 
   const authRoutes = (
@@ -228,21 +269,30 @@ export function App() {
       <Route
         path="login"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal} >
+          <Modal
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            handleCloseModal={handleCloseModal}>
             <Login />
           </Modal>
         }></Route>
       <Route
         path="register"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal}>
+          <Modal
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            handleCloseModal={handleCloseModal}>
             <Register />
           </Modal>
         }></Route>
       <Route
         path="reset-pass"
         element={
-          <Modal activeModal={activeModal} setActiveModal={setActiveModal} handleCloseModal={handleCloseModal}>
+          <Modal
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+            handleCloseModal={handleCloseModal}>
             <ResetPassword setAuthentificated={setAuthentificated} />
           </Modal>
         }></Route>
