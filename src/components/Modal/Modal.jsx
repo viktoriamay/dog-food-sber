@@ -33,12 +33,20 @@ export const Modal = ({
     navigate('/');
   };
 
+  /* const closeModalEsc = (e) => {
+    if (e.key === 'Escape') {
+      setActiveModal(false);
+      navigate('/');
+    }
+  } */
+
   return (
     <div
       className={cn('modal', { ['active']: activeModal })}
       onClick={() => handleClickCloseModal()}
       // tabIndex={1} для того, чтобы можно было делать события клавиатуры
       // onKeyDown={closeModalEsc}
+      
       // role="button"
     >
       <div
